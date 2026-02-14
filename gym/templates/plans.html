@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Page Title -->
+<div class="mb-4 mt-3">
+    <h2 class="fw-semibold">Membership Plans</h2>
+</div>
+
+<div class="glass-card">
+
+    <!-- Desktop Table -->
+    <div class="desktop-table">
+        <table class="table table-borderless modern-table">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Duration (Days)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for plan in plans %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ plan.name }}</td>
+                    <td>₹ {{ plan.price }}</td>
+                    <td>{{ plan.duration_days }}</td>
+                    <td class="d-flex gap-2">
+                        <a href="{% url 'edit_plan' plan.id %}" 
+                           class="btn-modern btn-sm">
+                            Edit
+                        </a>
+
+                        <a href="{% url 'delete_plan' plan.id %}" 
+                           class="btn btn-sm btn-outline-danger">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">
+                        No plans found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile Card Layout -->
+    <div class="mobile-cards">
+        {% for plan in plans %}
+        <div class="plan-card">
+            <div><strong>Name:</strong> {{ plan.name }}</div>
+            <div><strong>Price:</strong> ₹ {{ plan.price }}</div>
+            <div><strong>Duration:</strong> {{ plan.duration_days }} Days</div>
+
+            <div class="mt-3 d-flex gap-2">
+                <a href="{% url 'edit_plan' plan.id %}" 
+                   class="btn-modern btn-sm w-100 text-center">
+                    Edit
+                </a>
+
+                <a href="{% url 'delete_plan' plan.id %}" 
+                   class="btn btn-sm btn-outline-danger w-100 text-center">
+                    Delete
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted text-center">No plans found.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- Add Plan Button -->
+<div class="d-flex justify-content-end mt-4">
+    <a href="{% url 'add_plan' %}" class="btn-modern text-center">
+        Add Plan
+    </a>
+</div>
+
+<style>
+
+/* Hide mobile cards on desktop */
+.mobile-cards {
+    display: none;
+}
+
+/* ===================================
+   📱 Mobile Version
+   =================================== */
+
+@media (max-width: 768px) {
+
+    .desktop-table {
+        display: none;
+    }
+
+    .mobile-cards {
+        display: block;
+    }
+
+    .plan-card {
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        font-size: 14px;
+    }
+
+    .plan-card strong {
+        color: #555;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+}
+
+</style>
+
+{% endblock %}

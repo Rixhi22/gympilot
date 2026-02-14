@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="mb-5 fw-semibold">Payments</h2>
+
+<div class="glass-card">
+
+    <table class="table table-borderless modern-table">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Member</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ payment.subscription.member.name }}</td>
+                <td>₹ {{ payment.amount }}</td>
+                <td>{{ payment.payment_date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    No payments found.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

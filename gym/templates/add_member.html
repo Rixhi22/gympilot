@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-semibold">Add Member</h2>
+</div>
+
+<div class="glass-card">
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- Global Form Errors -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <!-- Name Field -->
+        <div class="mb-4">
+            <label class="form-label fw-medium">Full Name</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.name.errors.0 }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Phone Field -->
+        <div class="mb-4">
+            <label class="form-label fw-medium">Phone Number</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.phone.errors.0 }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'members' %}" class="btn btn-outline-secondary">
+                Cancel
+            </a>
+
+            <button type="submit" class="btn-modern">
+                Save Member
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

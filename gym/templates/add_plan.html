@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3 class="mb-4">➕ Add / Edit Plan</h3>
+
+<form method="post" class="card p-4 bg-white">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Name</label>
+        {{ form.name }}
+    </div>
+
+    <div class="mb-3">
+        <label>Price</label>
+        {{ form.price }}
+    </div>
+
+    <div class="mb-3">
+        <label>Duration (Days)</label>
+        {{ form.duration_days }}
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Plan</button>
+</form>
+
+{% endblock %}

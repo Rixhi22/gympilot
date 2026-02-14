@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="mb-4 fw-semibold">Add Subscription</h2>
+
+<div class="glass-card col-md-6">
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Member</label>
+            {{ form.member }}
+        </div>
+
+        <div class="mb-3">
+            <label>Plan</label>
+            {{ form.plan }}
+        </div>
+
+        <div class="mb-3">
+            <label>Expiry Date</label>
+            {{ form.expiry }}
+        </div>
+
+        <button type="submit" class="btn-modern">
+            Create Subscription
+        </button>
+    </form>
+</div>
+
+{% endblock %}
