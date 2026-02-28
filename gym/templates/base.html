@@ -23,6 +23,7 @@ body {
 /* ===== Header ===== */
 
 .top-header {
+    
     background: white;
     padding: 35px 0 10px 0;
     text-align: center;
@@ -31,6 +32,7 @@ body {
 
 .brand-title {
     font-weight: 950;
+    font-size: large;
     letter-spacing: 5px;
     margin: 0;
     font-size: 36px;
@@ -57,7 +59,6 @@ body {
     gap: 10px;
     position: relative;
 }
-
 .top-nav .nav-left {
     display: flex;
     gap: 10px;
@@ -65,11 +66,14 @@ body {
     align-items: center;
 }
 
+
 .top-nav .nav-right {
     display: flex;
     position: absolute;
     right: 12px;
     top: 50%;
+    margin-top: 100px;
+    margin-top: 20px;
     transform: translateY(-50%);
 }
 
@@ -152,14 +156,18 @@ body {
 @media (max-width: 768px) {
 
     .brand-title {
-        font-size: 14px;
+        font-size: 25px;
         letter-spacing: 2px;
     }
 
     .brand-tagline {
         font-size: 12px;
     }
-
+    .top-header{
+        display: flex;
+        justify-content:  space-around;
+        gap: 6px;
+    }
     .main {
         padding: 20px 12px;
     }
@@ -182,7 +190,7 @@ body {
     }
 
     .logout-btn {
-        width: 28%;
+        width: 60%;
         text-align: center;
     }
 
@@ -207,9 +215,21 @@ body {
 
 <!-- HEADER -->
 <div class="top-header">
+    <div>
     <h2 class="brand-title">GYM PILOT</h2>
     <div class="brand-tagline">Navigate » Manage » Grow.</div>
+    </div>
+    <div class="nav-right" style="align-items: ;">
+          <!-- LOGOUT -->
+          <form method="POST" action="{% url 'gym:owner_logout' %}" class="logout-btn m-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-right: 100px;text-align: r;">
+                     Logout
+                </button>
+          </form>
+     </div>
 </div>
+
 
 <!-- NAVBAR -->
 <div class="top-nav">
@@ -230,15 +250,7 @@ body {
               class="{% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">Subscriptions</a>
      </div>
 
-    <div class="nav-right">
-          <!-- LOGOUT -->
-          <form method="POST" action="{% url 'gym:owner_logout' %}" class="logout-btn m-0">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-right: 40px;">
-                     Logout
-                </button>
-          </form>
-     </div>
+    
 
 </div>
 
