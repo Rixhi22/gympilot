@@ -207,8 +207,13 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # AUTH SETTINGS (Gym Owner)
 # ======================================================
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
+#LOGIN_URL = '/login/'
+LOGIN_URL = 'gym:owner_login'
+LOGIN_REDIRECT_URL = 'gym:dashboard'
+LOGOUT_REDIRECT_URL = 'gym:owner_login'
+
+
+#LOGIN_REDIRECT_URL = '/'
 
 
 
