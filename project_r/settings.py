@@ -262,7 +262,8 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Security (Render HTTPS fix)
-CSRF_TRUSTED_ORIGINS = ['https://gympilot-sxtk.onrender.com']
+#CSRF_TRUSTED_ORIGINS = ['https://gympilot-sxtk.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
 
 TWILIO_ACCOUNT_SID = 'PASTE_YOUR_SID'
 TWILIO_AUTH_TOKEN = 'PASTE_YOUR_TOKEN'
