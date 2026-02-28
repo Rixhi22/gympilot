@@ -255,7 +255,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import os
 
 # Render allowed hosts
-ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'gympilot.online',
+    'www.gympilot.online',
+    '.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
 
 # Static files (Render Fix)
 STATIC_URL = '/static/'
@@ -268,7 +274,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Security (Render HTTPS fix)
 #CSRF_TRUSTED_ORIGINS = ['https://gympilot-sxtk.onrender.com']
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    'https://gympilot.online',
+    'https://www.gympilot.online',
+    'https://*.onrender.com'
+]
 
 TWILIO_ACCOUNT_SID = 'PASTE_YOUR_SID'
 TWILIO_AUTH_TOKEN = 'PASTE_YOUR_TOKEN'
