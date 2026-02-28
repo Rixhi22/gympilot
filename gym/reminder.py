@@ -1,7 +1,7 @@
 from django.utils import timezone
 from datetime import timedelta
 from gym.models import Subscription
-from gym.whatsapp import send_whatsapp_message
+#from gym.whatsapp import send_whatsapp_message
 
 
 def send_expiry_reminders(dry_run: bool = False):
