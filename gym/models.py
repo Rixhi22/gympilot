@@ -1,105 +1,115 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 from datetime import timedelta
+from django.utils import timezone
+from decimal import Decimal
+from datetime import date
 
 
-# ==========================================
-# 🏋️ GYM MODEL (Each Gym Owner)
-# ==========================================
 
+# ===============================
+# GYM (each owner has one gym)
+# ===============================
 class Gym(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="gym",
-        null=True,
-        blank=True
-    )
-    name = models.CharField(max_length=255)
-    owner_name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=15)
-    city = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-created_at']
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=150)
 
     def __str__(self):
         return self.name
 
 
-# ==========================================
-# 💳 MEMBERSHIP PLAN
-# ==========================================
-
-class MembershipPlan(models.Model):
-    gym = models.ForeignKey(
-        Gym,
-        on_delete=models.CASCADE,
-        related_name="plans"
-    )
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    duration_days = models.IntegerField()
-
-    class Meta:
-        ordering = ['price']
-
-    def __str__(self):
-        return f"{self.name} ({self.duration_days} days)"
-
-
-# ==========================================
-# 👥 MEMBER
-# ==========================================
-
+# ===============================
+# MEMBER
+# ===============================
 class Member(models.Model):
     gym = models.ForeignKey(Gym, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=15)
-    join_date = models.DateField(auto_now_add=True)
+    name = models.CharField(max_length=120)
+    country_code = models.CharField(max_length=5, default="+91")
+    phone = models.CharField(max_length=10)
 
-    class Meta:
-        unique_together = ('gym', 'phone')  # 🔥 Prevent duplicate phone in same gym
+    # ⭐ NEW FIELD
+    join_date = models.DateField(default=timezone.now)
+
+    def full_phone(self):
+        return f"{self.country_code}{self.phone}"
 
     def __str__(self):
-        return f"{self.name} - {self.gym.name}"
+        return self.name
 
 
-# ==========================================
-# 🔁 SUBSCRIPTION
-# ==========================================
+# ===============================
+# MEMBERSHIP PLAN
+# ===============================
+class MembershipPlan(models.Model):
+    gym = models.ForeignKey(Gym, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    duration_months = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.name} - ₹{self.price}"
+
+
+# ===============================
+# SUBSCRIPTION
+# ===============================
+from decimal import Decimal
+from datetime import timedelta
+from django.utils import timezone
+
 class Subscription(models.Model):
     gym = models.ForeignKey(Gym, on_delete=models.CASCADE)
-    member = models.OneToOneField(Member, on_delete=models.CASCADE)  # 🔥 change here
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
     plan = models.ForeignKey(MembershipPlan, on_delete=models.CASCADE)
-    start_date = models.DateField(default=timezone.now)
+
+    # IMPORTANT FIX
+    start_date = models.DateField(default=timezone.localdate)
     expiry_date = models.DateField(blank=True, null=True)
 
+    extra_months = models.IntegerField(default=0)
+    discount_percent = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    personal_training_fee = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    final_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    # ---------------- PRICE CALCULATION ----------------
+    def calculate_amount(self):
+        base_price = Decimal(self.plan.price)
+
+        # Extra months extend duration but are offered free of cost.
+        # Do NOT increase the base price for `extra_months`.
+
+        # discount
+        discount_amount = base_price * (Decimal(self.discount_percent) / Decimal('100'))
+        discounted_price = base_price - discount_amount
+
+        # final
+        self.final_amount = discounted_price + Decimal(self.personal_training_fee)
+
+    # ---------------- SAVE ----------------
     def save(self, *args, **kwargs):
-        if not self.expiry_date:
-            self.expiry_date = self.start_date + timedelta(days=self.plan.duration_days)
+
+        # expiry calculation (CORRECT)
+        total_months = self.plan.duration_months + (self.extra_months or 0)
+        self.expiry_date = self.start_date + timedelta(days=30 * total_months)
+
+        # amount calculation
+        self.calculate_amount()
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.member.name} - {self.plan.name}"
 
-# ==========================================
-# 💰 PAYMENT
-# ==========================================
 
+# ===============================
+# PAYMENT
+# ===============================
 class Payment(models.Model):
-    subscription = models.ForeignKey(
-        Subscription,
-        on_delete=models.CASCADE,
-        related_name="payments"
-    )
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_date = models.DateField(default=timezone.now)
-
-    class Meta:
-        ordering = ['-payment_date']
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateField(default=date.today)
+    payment_method = models.CharField(max_length=50, default="Cash")
 
     def __str__(self):
-        return f"{self.subscription.member.name} - ₹{self.amount}"
+        return f"{self.subscription.member} - ₹{self.amount_paid}"

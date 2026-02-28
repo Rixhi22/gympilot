@@ -1,37 +1,41 @@
 from django.urls import path
-from .views import (
-    dashboard,
-    members_list,
-    add_member,
-    edit_member,
-    delete_member,
-    renew_subscription,
-    plans_list,
-    add_plan,
-    edit_plan,
-    delete_plan,
-    payments_list,
-    subscriptions_list,
-    add_subscription,
-)
+from . import views
+
+app_name = "gym"
 
 urlpatterns = [
-    path('', dashboard, name='dashboard'),
-    path('members/', members_list, name='members'),
-    path('members/add/', add_member, name='add_member'),
-    path('members/edit/<int:member_id>/', edit_member, name='edit_member'),
-    path('members/delete/<int:member_id>/', delete_member, name='delete_member'),
 
-    path('plans/', plans_list, name='plans'),
-    path('plans/add/', add_plan, name='add_plan'),
-    path('plans/edit/<int:plan_id>/', edit_plan, name='edit_plan'),
-    path('plans/delete/<int:plan_id>/', delete_plan, name='delete_plan'),
+    # AUTH
+    path('login/', views.owner_login, name='owner_login'),
+    path('logout/', views.owner_logout, name='owner_logout'),
 
-    path('payments/', payments_list, name='payments'),
+    # DASHBOARD
+    path('', views.dashboard, name='dashboard'),
 
-    # ✅ Subscriptions
-    path('subscriptions/', subscriptions_list, name='subscriptions'),
-    path('subscriptions/add/', add_subscription, name='add_subscription'),
+    # MEMBERS
+    path('members/', views.members_list, name='members'),
+    path('members/add/', views.add_member, name='add_member'),
+    path('members/edit/<int:member_id>/', views.edit_member, name='edit_member'),
+    path('members/delete/<int:member_id>/', views.delete_member, name='delete_member'),
 
-    path('renew/<int:subscription_id>/', renew_subscription, name='renew_subscription'),
+    # PLANS
+    path('plans/', views.plans_list, name='plans'),
+    path('plans/add/', views.add_plan, name='add_plan'),
+    path('plans/edit/<int:plan_id>/', views.edit_plan, name='edit_plan'),
+    path('plans/delete/<int:plan_id>/', views.delete_plan, name='delete_plan'),
+
+    # SUBSCRIPTIONS
+    path('subscriptions/', views.subscriptions_list, name='subscriptions'),
+    path('subscriptions/add/', views.add_subscription, name='add_subscription'),
+
+    # ⭐⭐⭐ THIS WAS THE MISSING / BROKEN PART
+    path('subscriptions/edit/<int:sub_id>/', views.edit_subscription, name='edit_subscription'),
+    path('subscriptions/delete/<int:sub_id>/', views.delete_subscription, name='delete_subscription'),
+    path('subscriptions/renew/<int:subscription_id>/', views.renew_subscription, name='renew_subscription'),
+
+    # PAYMENTS
+    path('payments/', views.payments_list, name='payments'),
+
+    # AJAX PLAN
+    path('plan-details/<int:plan_id>/', views.plan_details, name='plan_details'),
 ]

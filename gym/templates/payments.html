@@ -5,7 +5,7 @@
 
 <div class="glass-card">
 
-    <table class="table table-borderless modern-table">
+    <table class="table modern-table align-middle">
         <thead>
             <tr>
                 <th>S.No</th>
@@ -19,8 +19,8 @@
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ payment.subscription.member.name }}</td>
-                <td>₹ {{ payment.amount }}</td>
-                <td>{{ payment.payment_date }}</td>
+                <td>₹ {{ payment.amount_paid }}</td>
+                <td>{{ payment.payment_date|date:"d M Y" }}</td>
             </tr>
             {% empty %}
             <tr>
@@ -33,5 +33,40 @@
     </table>
 
 </div>
+
+<!-- MOBILE CARDS -->
+<div class="mobile-cards mt-3">
+    {% for payment in payments %}
+    <div class="subscription-card">
+        <div><strong>Member:</strong> {{ payment.subscription.member.name }}</div>
+        <div><strong>Amount:</strong> ₹ {{ payment.amount_paid }}</div>
+        <div><strong>Date:</strong> {{ payment.payment_date|date:"d M Y" }}</div>
+    </div>
+    {% empty %}
+    <p class="text-muted text-center">No payments found.</p>
+    {% endfor %}
+</div>
+
+<!-- RESPONSIVE -->
+<style>
+.mobile-cards { display: none; }
+.desktop-table { display: block; }
+
+@media (max-width: 768px) {
+    .desktop-table { display: none; }
+    .mobile-cards { display: block; }
+
+    .subscription-card {
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        font-size: 14px;
+    }
+
+    h2 { font-size: 22px; }
+}
+</style>
 
 {% endblock %}

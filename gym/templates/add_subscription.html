@@ -3,29 +3,149 @@
 
 <h2 class="mb-4 fw-semibold">Add Subscription</h2>
 
-<div class="glass-card col-md-6">
-    <form method="POST">
-        {% csrf_token %}
+<div class="glass-card subscription-form">
 
-        <div class="mb-3">
-            <label>Member</label>
-            {{ form.member }}
-        </div>
+<form method="POST">
+{% csrf_token %}
 
-        <div class="mb-3">
-            <label>Plan</label>
-            {{ form.plan }}
-        </div>
-
-        <div class="mb-3">
-            <label>Expiry Date</label>
-            {{ form.expiry }}
-        </div>
-
-        <button type="submit" class="btn-modern">
-            Create Subscription
-        </button>
-    </form>
+<!-- Member -->
+<div class="mb-3">
+    <label class="form-label">Member</label>
+    {{ form.member }}
 </div>
+
+<!-- Plan -->
+<div class="mb-3">
+    <label class="form-label">Plan</label>
+    {{ form.plan }}
+</div>
+<div class="mb-3">
+    <label class="form-label">Joining Date</label>
+    {{ form.start_date }}
+</div>
+
+<!-- Extra Months -->
+<div class="mb-3">
+    <label class="form-label">Extra Months (Offer 2+1 / 6+1)</label>
+    {{ form.extra_months }}
+</div>
+
+<!-- Discount -->
+<div class="mb-3">
+    <label class="form-label">Discount Percentage (%)</label>
+    {{ form.discount_percent }}
+</div>
+
+<!-- Personal Training -->
+<div class="mb-3">
+    <label class="form-label">Personal Training Fee</label>
+    {{ form.personal_training_fee }}
+</div>
+
+<button type="submit" class="btn-modern w-100 mt-3">
+    Create Subscription
+</button>
+
+</form>
+</div>
+
+
+<!-- ================= PREVIEW CARD ================= -->
+
+<div class="glass-card mt-4" id="planPreview" style="display:none;">
+    <h5 class="mb-3">Subscription Preview</h5>
+
+    <p><strong>Plan Price:</strong> ₹ <span id="planPrice">0</span></p>
+    <p><strong>Total Months:</strong> <span id="planMonths">0</span></p>
+    <p><strong>Expiry Date:</strong> <span id="planExpiry">--</span></p>
+    <p><strong>Final Amount:</strong> ₹ <span id="finalAmount">0</span></p>
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+
+const planField = document.getElementById("id_plan");
+const extraMonthsField = document.getElementById("id_extra_months");
+const discountField = document.getElementById("id_discount_percent");
+const ptField = document.getElementById("id_personal_training_fee");
+
+const priceEl = document.getElementById("planPrice");
+const monthsEl = document.getElementById("planMonths");
+const expiryEl = document.getElementById("planExpiry");
+const finalEl = document.getElementById("finalAmount");
+const previewBox = document.getElementById("planPreview");
+const startDateField = document.getElementById("id_start_date");
+
+let basePrice = 0;
+let baseMonths = 0;
+
+
+/* ---------------- LOAD PLAN DETAILS ---------------- */
+
+async function loadPlan() {
+
+    const planId = planField.value;
+    if (!planId) return;
+
+    const response = await fetch(`/plan-details/${planId}/`);
+    const data = await response.json();
+
+    basePrice = parseFloat(data.price);
+    baseMonths = parseInt(data.duration);
+
+    previewBox.style.display = "block";
+
+    calculatePreview();
+}
+
+
+/* ---------------- CALCULATE PREVIEW ---------------- */
+
+function calculatePreview(){
+
+    let extra = parseInt(extraMonthsField.value || 0);
+    let discount = parseFloat(discountField.value || 0);
+    let pt = parseFloat(ptField.value || 0);
+
+    let totalMonths = baseMonths + extra;
+
+    /* expiry calculation: use selected start date if provided */
+    let expiryDate;
+    if (startDateField && startDateField.value) {
+        expiryDate = new Date(startDateField.value);
+    } else {
+        expiryDate = new Date();
+    }
+    expiryDate.setMonth(expiryDate.getMonth() + totalMonths);
+
+    const formattedExpiry = expiryDate.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+
+    /* price calculation: extra months do NOT increase price (free extra months) */
+    let base = parseFloat(basePrice || 0);
+    let discountedPrice = base - (base * (discount / 100 || 0));
+    let finalAmount = discountedPrice + (pt || 0);
+
+    /* update UI */
+    priceEl.innerText = basePrice ? parseFloat(basePrice).toFixed(2) : "0.00";
+    monthsEl.innerText = totalMonths + " Month(s)";
+    expiryEl.innerText = formattedExpiry;
+    finalEl.innerText = finalAmount.toFixed(2);
+}
+
+
+/* ---------------- EVENT LISTENERS ---------------- */
+
+planField.addEventListener("change", loadPlan);
+extraMonthsField.addEventListener("input", calculatePreview);
+discountField.addEventListener("input", calculatePreview);
+ptField.addEventListener("input", calculatePreview);
+if (startDateField) startDateField.addEventListener("change", calculatePreview);
+
+</script>
 
 {% endblock %}

@@ -6,6 +6,19 @@
 <form method="post" class="card p-4 bg-white">
     {% csrf_token %}
 
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Form Errors:</strong>
+        <ul class="mb-0">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }} : {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
     <div class="mb-3">
         <label>Name</label>
         {{ form.name }}
@@ -17,8 +30,9 @@
     </div>
 
     <div class="mb-3">
-        <label>Duration (Days)</label>
-        {{ form.duration_days }}
+    <label>Duration (Months)</label>
+        {{ form.duration_months }}
+
     </div>
 
     <button type="submit" class="btn btn-success">Save Plan</button>

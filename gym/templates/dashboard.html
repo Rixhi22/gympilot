@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2 class="mb-4 fw-semibold text-center text-md-start">Dashboard</h2>
 
 <!-- ================= STATS ================= -->
 
 <div class="row g-3 mb-4">
 
     <div class="col-6 col-md-3">
-        <div class="glass-card text-center text-md-start">
+        <div class="glass-card text-center text-md-start" >
             <small>Total Revenue</small>
             <div class="stat-number mt-2">₹ {{ total_revenue }}</div>
         </div>
@@ -52,22 +51,24 @@
     <h5 class="mb-3">Members Expiring Soon</h5>
 
     <div class="table-responsive-sm">
-        <table class="table table-borderless modern-table">
+        <table class="table modern-table align-middle">
             <thead>
                 <tr>
                     <th>Member</th>
                     <th>Expiry Date</th>
-                    <th class="text-end">Action</th>
+                    <th>Subscription</th>
+                    <th style="padding-left: 20px;">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for sub in expiring_soon %}
                 <tr>
                     <td>{{ sub.member.name }}</td>
-                    <td>{{ sub.expiry_date }}</td>
-                    <td class="text-end">
-                        <a href="{% url 'renew_subscription' sub.id %}" 
-                           class="btn-modern btn-sm">
+                        <td>{{ sub.expiry_date|date:"d M Y" }}</td>
+                    <td>{{ sub.plan.name }}</td>
+                    <td >
+                        <a href="{% url 'gym:renew_subscription' sub.id %}" 
+                           class="btn-modern btn-sm text-decoration-none">
                             Renew
                         </a>
                     </td>
@@ -79,6 +80,7 @@
                     </td>
                 </tr>
                 {% endfor %}
+                <div><strong>Expiry:</strong> {{ sub.expiry_date|date:"d M Y" }}</div>
             </tbody>
         </table>
     </div>

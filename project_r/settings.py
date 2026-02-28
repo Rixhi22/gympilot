@@ -70,7 +70,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-change-this-in-production'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -263,3 +263,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Security (Render HTTPS fix)
 CSRF_TRUSTED_ORIGINS = ['https://gympilot-sxtk.onrender.com']
+
+TWILIO_ACCOUNT_SID = 'PASTE_YOUR_SID'
+TWILIO_AUTH_TOKEN = 'PASTE_YOUR_TOKEN'
+TWILIO_WHATSAPP_NUMBER = 'whatsapp:+14155238886'

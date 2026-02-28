@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="manifest" href="{% static 'manifest.json' %}">
-<meta name="theme-color" content="#0071e3">
 
+    <!-- PWA manifest removed to make this a regular website -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
+
     <title>GYM PILOT</title>
 
     <!-- Bootstrap -->
@@ -15,261 +15,253 @@
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f5f7fa;
-            overflow-x: hidden;   /* 🔥 Prevent horizontal scroll globally */
-        }
+<style>
+body {
+    font-family: 'Inter', sans-serif;
+    /*background: black;*/
+    overflow-x: hidden;
+}
 
-        html {
-            overflow-x: hidden;   /* 🔥 Extra safety */
-        }
+/* ===== Header ===== */
 
-        /* ===== Top Header ===== */
+.top-header {
+    background: white;
+    padding: 35px 0 10px 0;
+    text-align: center;
+    border-bottom: 3px solid rgba(0,0,0,0.05);
+}
 
-        .top-header {
-            background: white;
-            padding: 35px 0 10px 0;
-            text-align: center;
-            border-bottom: 3px solid rgba(0,0,0,0.05);
-        }
+.brand-title {
+    font-weight: 950;
+    letter-spacing: 5px;
+    margin: 0;
+    font-size: 36px;
+    display: inline-block;
+    
+}
 
-        .brand-title {
-            font-weight: 950;
-            letter-spacing: 5px;
-            margin: 0;
-            font-size: 36px;
-        }
+.brand-tagline {
+    font-size: 15px;
+    color: #6b7280;
+    margin-top: 4px;
+}
 
-        .brand-tagline {
-            font-size: 15px;
-            color: #6b7280;
-            margin-top: 4px;
-        }
 
-        /* ===== Navigation ===== */
 
-        .top-nav {
-            background: white;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .top-nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: 0.2s ease;
-        }
-
-        .top-nav a:hover {
-            color: #0071e3;
-        }
-
-        .top-nav a.active {
-            color: #0071e3;
-            font-weight: 600;
-        }
-
-        /* ===== Main Content ===== */
-
-        .main {
-            padding: 40px;
-        }
-
-        /* ===== Cards ===== */
-
-        .glass-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        /* ===== Buttons ===== */
-
-        .btn-modern {
-            background: #0071e3;
-            border: none;
-            border-radius: 14px;
-            padding: 6px 16px;
-            color: white;
-            transition: 0.2s ease;
-        }
-
-        .btn-modern:hover {
-            background: #005bb5;
-        }
-
-        /* ===== Tables ===== */
-
-        table {
-            width: 100%;
-            table-layout: auto;  /* 🔥 Auto fit */
-            word-wrap: break-word;
-        }
-
-        .modern-table thead th {
-            font-size: 13px;
-            color: #6b7280;
-            font-weight: 500;
-        }
-
-        .modern-table tbody tr {
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: 600;
-        }
-
-        /* =========================================
-           📱 MOBILE ONLY (NO DESKTOP CHANGE)
-           ========================================= */
-
-        @media (max-width: 768px) {
-
-            .brand-title {
-                font-size: 24px;
-                letter-spacing: 2px;
-            }
-
-            .brand-tagline {
-                font-size: 12px;
-            }
-
-            .top-nav {
-                padding: 10px 10px;
-            }
-
-            .top-nav a {
-                margin: 6px 6px;
-                font-size: 14px;
-            }
-
-            .main {
-                padding: 20px 12px;
-            }
-
-            .glass-card {
-                padding: 18px;
-            }
-
-            .stat-number {
-                font-size: 22px;
-            }
-
-            /* 🔥 Make navigation stack nicely */
-/* ===== MOBILE NAV LAYOUT FIX ===== */
-
-/* ===== MOBILE NAV COMPACT FIX ===== */
+/* ===== NAVIGATION ===== */
 
 .top-nav {
+    background: white;
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 4px;              /* reduced gap */
-    padding: 5px 5px;      /* reduced nav padding */
+    align-items: center;
+    gap: 10px;
+    position: relative;
 }
 
-/* All nav items smaller spacing */
+.top-nav .nav-left {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-nav .nav-right {
+    display: flex;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .top-nav a {
-    margin: 0;
-    padding: 2px 3px;
-    font-size: 13px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    padding: 5px 8px;
 }
 
-/* First 4 items */
-.top-nav a:nth-child(-n+4) {
-    flex: 1 1 23%;
-    text-align: center;
+.top-nav a:hover {
+    color: #0071e3;
 }
 
-/* Subscriptions + Logout */
-.top-nav a:nth-child(5),
-.top-nav form {
-    flex: 1 1 48%;
-    text-align: center;
+.top-nav a.active {
+    color: #0071e3;
+    font-weight: 600;
 }
 
-/* Compact logout button */
-.top-nav form button {
-    width: 100%;
-    padding: 4px 6px;
-    font-size: 13px;
-    margin: 0;
+/* ===== Logout button ===== */
+
+.logout-btn button {
+    border-radius: 10px;
+    padding: 4px 12px;
 }
 
-            /* 🔥 Make table text smaller on mobile */
-            table th,
-            table td {
-                font-size: 13px;
-                padding: 6px;
-            }
+/* ===== Main Content ===== */
 
-            /* 🔥 Buttons full width on mobile */
-            .btn-modern,
-            .btn,
-            button {
-                width: 100%;
-                margin-top: 5px;
-            }
-        }
-    </style>
-</head>
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("{% static 'serviceworker.js' %}")
-        .then(function() {
-            console.log("Service Worker Registered");
-        });
-    }
-    </script>
+.main {
+    padding: 40px;
     
+}
+
+/* ===== Cards ===== */
+
+.glass-card {
+    background:white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0px 20px 45px rgba(9, 9, 9, 0.876);
+}
+
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+/* Subscription / mobile card hover effect: defined globally so all cards behave similarly */
+.subscription-card {
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.subscription-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.08);
+}
+
+/* ===== Buttons ===== */
+
+.btn-modern {
+    background: #0071e3;
+    border: none;
+    border-radius: 14px;
+    padding: 6px 16px;
+    color: white;
+}
+
+.btn-modern:hover {
+    background: #005bb5;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 768px) {
+
+    .brand-title {
+        font-size: 24px;
+        letter-spacing: 2px;
+    }
+
+    .brand-tagline {
+        font-size: 12px;
+    }
+
+    .main {
+        padding: 20px 12px;
+    }
+
+    .glass-card {
+        padding: 18px;
+    }
+
+    .stat-number {
+        font-size: 22px;
+    }
+
+    .top-nav {
+        display: flex;
+
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        position: static;
+    }
+
+    .top-nav a {
+        font-size: 14px;
+    }
+
+    .logout-btn {
+        width: 48%;
+        text-align: center;
+    }
+
+    .logout-btn button {
+        width: 100%;
+    }
+
+    .top-nav .nav-right {
+        position: static;
+        transform: none;
+        justify-content: flex-end;
+        width: 100%;
+    }
+}
+</style>
+
+</head>
+
+<!-- Service worker removed: this is a regular website now -->
+
 <body>
 
+<!-- HEADER -->
 <div class="top-header">
     <h2 class="brand-title">GYM PILOT</h2>
     <div class="brand-tagline">Navigate. Manage. Grow.</div>
 </div>
 
-<div class="top-nav text-center d-flex justify-content-center align-items-center flex-wrap gap-3">
-    <a href="{% url 'dashboard' %}"
-       class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-       Dashboard
-    </a>
+<!-- NAVBAR -->
+<div class="top-nav">
+     <div class="nav-left">
+          <a href="{% url 'gym:dashboard' %}"
+              class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+              Dashboard
+          </a>
 
-    <a href="{% url 'members' %}"
-       class="{% if request.resolver_match.url_name == 'members' %}active{% endif %}">
-       Members
-    </a>
+          <a href="{% url 'gym:members' %}"
+              class="{% if request.resolver_match.url_name == 'members' %}active{% endif %}">
+              Members
+          </a>
 
-    <a href="{% url 'plans' %}"
-       class="{% if request.resolver_match.url_name == 'plans' %}active{% endif %}">
-       Plans
-    </a>
+          <a href="{% url 'gym:plans' %}"
+              class="{% if request.resolver_match.url_name == 'plans' %}active{% endif %}">
+              Plans
+          </a>
 
-    <a href="{% url 'payments' %}"
-       class="{% if request.resolver_match.url_name == 'payments' %}active{% endif %}">
-       Payments
-    </a>
+          <a href="{% url 'gym:payments' %}"
+              class="{% if request.resolver_match.url_name == 'payments' %}active{% endif %}">
+              Payments
+          </a>
 
-    <a href="{% url 'subscriptions' %}"
-       class="{% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">
-       Subscriptions
-    </a>
+          <a href="{% url 'gym:subscriptions' %}"
+              class="{% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">
+              Subscriptions
+          </a>
+     </div>
 
-    <form method="POST" action="{% url 'owner_logout' %}" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-sm btn-outline-danger">
-            Logout
-        </button>
-    </form>
+    <div class="nav-right">
+          <!-- LOGOUT -->
+          <form method="POST" action="{% url 'gym:owner_logout' %}" class="logout-btn m-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-right: 40px;">
+                     Logout
+                </button>
+          </form>
+     </div>
+
 </div>
 
+<!-- PAGE CONTENT -->
 <div class="container main">
     {% block content %}{% endblock %}
 </div>
