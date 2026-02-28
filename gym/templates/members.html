@@ -7,7 +7,8 @@
 
 <div class="glass-card">
 
-    <table class="table modern-table align-middle">
+    <div class="desktop-table">
+        <table class="table modern-table align-middle">
         <thead>
             <tr>
                 <th>S.No</th>
@@ -41,7 +42,8 @@
             </tr>
             {% endfor %}
         </tbody>
-    </table>
+        </table>
+    </div>
 
 </div>
 
@@ -77,6 +79,7 @@
 .desktop-table { display: block; }
 
 @media (max-width: 768px) {
+    /* on phones show table and hide cards */
     .desktop-table { display: none; }
     .mobile-cards { display: block; }
 
