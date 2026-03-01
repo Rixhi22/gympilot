@@ -224,9 +224,7 @@ body {
           <!-- LOGOUT -->
           <form method="POST" action="{% url 'gym:owner_logout' %}" class="logout-btn m-0">
                 {% csrf_token %}
-                    <button id="theme-toggle" class="btn btn-sm btn-outline-secondary me-2">
-    🌙
-</button>
+                    
                 <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-right: 50px;">
                      Logout
                 </button>
@@ -262,36 +260,6 @@ body {
   
 
 
-<script>
-const toggleBtn = document.getElementById("theme-toggle");
-const body = document.body;
-
-/* Load saved theme */
-function loadTheme() {
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme === "dark") {
-        body.classList.add("dark-mode");
-        toggleBtn.textContent = "☀️";
-    } else {
-        body.classList.remove("dark-mode");
-        toggleBtn.textContent = "🌙";
-    }
-}
-
-/* Toggle theme */
-toggleBtn.addEventListener("click", () => {
-    if (body.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "light");
-    } else {
-        localStorage.setItem("theme", "dark");
-    }
-    loadTheme();
-    location.reload(); // redraw charts
-});
-
-loadTheme();
-</script>
 
 
 
