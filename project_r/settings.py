@@ -94,8 +94,8 @@ CSRF_COOKIE_SAMESITE = 'Lax'
 # ======================================================
 # AUTO LOGOUT
 SESSION_COOKIE_AGE = 3600      # 1 hour auto logout
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_SAVE_EVERY_REQUEST = True
+#SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+#SESSION_SAVE_EVERY_REQUEST = True
 
 # ======================================================
 
@@ -258,7 +258,12 @@ ALLOWED_HOSTS = ['*'] if DEBUG else [
     'www.gympilot.online',
     '.onrender.com'
 ]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
 
 
 # ======================================================
