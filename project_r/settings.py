@@ -1,7 +1,7 @@
 import os
 import dj_database_url
+from pathlib import Path
 
-load_dotenv()
 
 INSTALLED_APPS = [
     'jazzmin',  # MUST BE FIRST
