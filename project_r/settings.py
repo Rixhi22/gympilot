@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+import dj_database_url
 
 load_dotenv()
 
@@ -151,11 +152,12 @@ WSGI_APPLICATION = 'project_r.wsgi.application'
 # DATABASE
 # ======================================================
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.expanduser('~/gympilot_data/db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
+        conn_max_age=600
+    )
 }
 
 
