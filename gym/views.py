@@ -104,7 +104,9 @@ def dashboard(request):
 
 @login_required
 def members_list(request):
-    gym = get_object_or_404(Gym, owner=request.user)
+    gym = Gym.objects.filter(owner=request.user).first()
+    if not gym:
+                return redirect('gym:dashboard')
     members = Member.objects.filter(gym=gym)
     return render(request, "members.html", {"members": members})
 
