@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 import os
 import dj_database_url
 
@@ -73,8 +72,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================================================
 # SECURITY
 # ======================================================
-SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG") == "True"
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+
 
 #ALLOWED_HOSTS = ['*']
 
