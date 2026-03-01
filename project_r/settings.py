@@ -1,6 +1,8 @@
 import os
 import dj_database_url
 from pathlib import Path
+from decouple import config
+
 
 
 INSTALLED_APPS = [
@@ -72,8 +74,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================================================
 # SECURITY
 # ======================================================
-SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Fix HTTPS behind Render proxy
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -165,10 +167,13 @@ WSGI_APPLICATION = 'project_r.wsgi.application'
 # ======================================================
 
 
+import dj_database_url
+
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
-        conn_max_age=600
+        default=config('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
     )
 }
 

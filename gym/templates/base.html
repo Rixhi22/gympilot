@@ -24,14 +24,19 @@ body {
 /* ===== Header ===== */
 
 .top-header {
-    display: flex;
     background: white;
-    justify-content: space-between;
-    padding: 35px 0 10px 0;
-    text-align: center;
+    padding: 35px 0 20px 0;
     border-bottom: 3px solid rgba(0,0,0,0.05);
 }
-
+.head-right {
+    position: absolute;
+    right: 20px;
+    top: 25px;
+    
+}
+.head-left {
+    text-align: center;
+}
 
 .brand-title {
     font-weight: 950;
@@ -160,10 +165,15 @@ body {
     .brand-tagline {
         font-size: 12px;
     }
-    .top-header{
-        display: flex;
-        justify-content:space-around;
-        gap: 10px;
+    .head-left{
+        text-align: left;
+        margin-left: 10px;
+    }
+     .head-right{
+        position:absolute;
+        right: 0px;
+        top: 10px;
+      
     }
     .main {
         padding: 20px 12px;
@@ -212,7 +222,7 @@ body {
 
 <!-- HEADER -->
 <div class="top-header">
-    <div></div>
+    
     <div class="head-left">
        <h2 class="brand-title">GYM PILOT</h2>
        <div class="brand-tagline">Navigate » Manage » Grow.</div>
@@ -225,7 +235,7 @@ body {
           <form method="POST" action="{% url 'gym:owner_logout' %}" class="logout-btn m-0">
                 {% csrf_token %}
                     
-                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-right: 50px;">
+                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin: 30px;">
                      Logout
                 </button>
           </form>
