@@ -1,4 +1,8 @@
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
+
 INSTALLED_APPS = [
     'jazzmin',  # MUST BE FIRST
     'django.contrib.admin',
@@ -68,30 +72,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================================================
 # SECURITY
 # ======================================================
-
-SECRET_KEY = 'django-insecure-change-this-in-production'
-
-DEBUG = True
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG") == "True"
 
 #ALLOWED_HOSTS = ['*']
 
 
 # ======================================================
-# APPLICATIONS
+# AUTO LOGOUT
+SESSION_COOKIE_AGE = 3600      # 1 hour auto logout
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+
 # ======================================================
 
-INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
 
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
-    'gym.apps.GymConfig',  # Your app
-]
 
 
 # ======================================================
@@ -159,7 +154,7 @@ WSGI_APPLICATION = 'project_r.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.expanduser('~/gympilot_data/db.sqlite3'),
     }
 }
 
@@ -197,14 +192,6 @@ USE_TZ = True
 
 
 # ======================================================
-# STATIC FILES
-# ======================================================
-
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-
-# ======================================================
 # AUTH SETTINGS (Gym Owner)
 # ======================================================
 
@@ -233,54 +220,39 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ======================================================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# ======================================================
+# STATIC FILES (CLEAN CONFIG)
+# ======================================================
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-import os
-from pathlib import Path
-
-STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-import os
 
-# Render allowed hosts
-ALLOWED_HOSTS = [
+# ======================================================
+# ALLOWED HOSTS
+# ======================================================
+
+ALLOWED_HOSTS = ['*'] if DEBUG else [
     'gympilot.online',
     'www.gympilot.online',
-    '.onrender.com',
-    'localhost',
-    '127.0.0.1'
+    '.onrender.com'
 ]
 
-# Static files (Render Fix)
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Whitenoise configuration
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# ======================================================
+# CSRF TRUSTED ORIGINS
+# ======================================================
 
-# Security (Render HTTPS fix)
-#CSRF_TRUSTED_ORIGINS = ['https://gympilot-sxtk.onrender.com']
 CSRF_TRUSTED_ORIGINS = [
     'https://gympilot.online',
     'https://www.gympilot.online',
     'https://*.onrender.com'
 ]
-
-TWILIO_ACCOUNT_SID = 'PASTE_YOUR_SID'
-TWILIO_AUTH_TOKEN = 'PASTE_YOUR_TOKEN'
-TWILIO_WHATSAPP_NUMBER = 'whatsapp:+14155238886'

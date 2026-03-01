@@ -55,7 +55,7 @@
             <thead>
                 <tr>
                     <th>Member</th>
-                    <th>Expiry Date</th>
+                    <th>Expiry</th>
                     <th>Subscription</th>
                     <th style="padding-left: 20px;">Action</th>
                 </tr>
@@ -113,5 +113,45 @@
         }
     });
 </script>
+<script>
+const isDark = localStorage.getItem("theme") === "dark";
+
+const textColor = isDark ? "#e5e7eb" : "#111";
+const gridColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)";
+
+const ctx = document.getElementById('revenueChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: months,
+        datasets: [{
+            label: 'Monthly Revenue',
+            data: totals,
+            backgroundColor: '#3b82f6',
+            borderRadius: 6
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                labels: { color: textColor }
+            }
+        },
+        scales: {
+            x: {
+                ticks: { color: textColor },
+                grid: { color: gridColor }
+            },
+            y: {
+                ticks: { color: textColor },
+                grid: { color: gridColor },
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
 
 {% endblock %}

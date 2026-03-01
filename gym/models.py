@@ -6,7 +6,7 @@ from datetime import timedelta
 from django.utils import timezone
 from decimal import Decimal
 from datetime import date
-
+from django.core.validators import RegexValidator
 
 
 # ===============================
@@ -31,7 +31,10 @@ class Member(models.Model):
 
     # ⭐ NEW FIELD
     join_date = models.DateField(default=timezone.now)
+   
+    phone_validator = RegexValidator(r'^[6-9]\d{9}$', 'Enter valid Indian mobile number')
 
+    phone = models.CharField(max_length=10, validators=[phone_validator])
     def full_phone(self):
         return f"{self.country_code}{self.phone}"
 
@@ -61,8 +64,8 @@ from django.utils import timezone
 
 class Subscription(models.Model):
     gym = models.ForeignKey(Gym, on_delete=models.CASCADE)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    plan = models.ForeignKey(MembershipPlan, on_delete=models.CASCADE)
+    member = models.ForeignKey(Member, on_delete=models.PROTECT)
+    plan = models.ForeignKey(MembershipPlan, on_delete=models.PROTECT)
 
     # IMPORTANT FIX
     start_date = models.DateField(default=timezone.localdate)
@@ -73,6 +76,10 @@ class Subscription(models.Model):
     personal_training_fee = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     final_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    member_code = models.CharField(max_length=10, unique=True, blank=True)
+
+ 
+
 
     # ---------------- PRICE CALCULATION ----------------
     def calculate_amount(self):
@@ -101,6 +108,7 @@ class Subscription(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
+        
         return f"{self.member.name} - {self.plan.name}"
 
 
@@ -112,6 +120,8 @@ class Payment(models.Model):
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     payment_date = models.DateField(default=date.today)
     payment_method = models.CharField(max_length=50, default="Cash")
-
+    billing_start = models.DateField(null=True, blank=True)
+    billing_end = models.DateField(null=True, blank=True)
+    
     def __str__(self):
         return f"{self.subscription.member} - ₹{self.amount_paid}"

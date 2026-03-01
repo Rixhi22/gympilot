@@ -246,7 +246,18 @@ def add_subscription(request):
         if form.is_valid():
             subscription = form.save(commit=False)
             subscription.gym = gym
+
+            today = timezone.now().date()
+
+# subscription always starts today
+            subscription.start_date = today
+
+# calculate expiry from plan duration
+            total_months = subscription.plan.duration_months + subscription.extra_months
+            subscription.expiry_date = today + relativedelta(months=total_months)
+
             subscription.save()
+
 
             # AUTO CREATE PAYMENT
             Payment.objects.create(
@@ -291,7 +302,9 @@ def renew_subscription(request, subscription_id):
         subscription=subscription,
         amount_paid=subscription.final_amount,
         payment_date=today,
-        payment_method="Cash"
+        payment_method="Cash",
+        billing_start=new_start,
+    billing_end=new_expiry
     )
 
     messages.success(request, "Membership renewed successfully!")

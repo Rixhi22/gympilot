@@ -1,0 +1,98 @@
+/* ================= DARK MODE SYSTEM ================= */
+
+:root {
+    --bg-light: #f5f7fb;
+    --text-light: #1f2937;
+    --card-light: #ffffff;
+    --border-light: #e5e7eb;
+
+    --bg-dark: #0f172a;
+    --text-dark: #e5e7eb;
+    --card-dark: #1e293b;
+    --border-dark: #334155;
+}
+
+/* Base */
+body.dark-mode {
+    background: var(--bg-dark) !important;
+    color: var(--text-dark) !important;
+}
+
+/* Header + navbar */
+.dark-mode .top-header,
+.dark-mode .top-nav {
+    background: #020617 !important;
+    border-color: #1e293b !important;
+}
+
+/* Links */
+.dark-mode a {
+    color: #cbd5f5;
+}
+.dark-mode a:hover {
+    color: #60a5fa;
+}
+
+/* Cards */
+.dark-mode .glass-card,
+.dark-mode .card {
+    background: var(--card-dark) !important;
+    color: var(--text-dark) !important;
+    border: 1px solid var(--border-dark) !important;
+}
+
+/* Tables */
+.dark-mode table {
+    color: var(--text-dark) !important;
+}
+
+.dark-mode .table {
+    background-color: var(--card-dark) !important;
+}
+
+.dark-mode .table thead th {
+    background-color: #1e293b !important;
+    color: #f9fafb !important;
+    border-color: var(--border-dark) !important;
+}
+
+.dark-mode .table tbody tr {
+    background-color: #0f172a !important;
+}
+
+.dark-mode .table tbody tr:nth-child(even) {
+    background-color: #1e293b !important;
+}
+
+.dark-mode .table td {
+    border-color: var(--border-dark) !important;
+}
+
+/* Forms */
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+    background: #0f172a !important;
+    color: white !important;
+    border: 1px solid var(--border-dark) !important;
+}
+
+.dark-mode input::placeholder {
+    color: #94a3b8;
+}
+
+/* Buttons */
+.dark-mode .btn-outline-secondary {
+    color: #e5e7eb !important;
+    border-color: #64748b !important;
+}
+
+.dark-mode .btn-outline-danger {
+    color: #f87171 !important;
+    border-color: #f87171 !important;
+}
+
+/* Dashboard stat boxes */
+.dark-mode .stat-number {
+    color: #f1f5f9 !important;
+}

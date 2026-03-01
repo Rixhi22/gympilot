@@ -1,3 +1,5 @@
+from email import message
+
 from django.utils import timezone
 from datetime import timedelta
 from gym.models import Subscription
@@ -55,9 +57,11 @@ def send_expiry_reminders(dry_run: bool = False):
                 print(message)
                 print("--- end ---\n")
                 continue
+            # WhatsApp disabled – log only
 
-            try:
-                send_whatsapp_message(phone, message)
-                print(f"Sent to {member.name} ({phone})")
-            except Exception as e:
-                print(f"FAILED {member.name}: {e}")
+            print(f"Reminder (WhatsApp disabled) for {member.name}")
+            print(f"Phone: {phone}")
+            print(message)
+            print("----")
+
+            
