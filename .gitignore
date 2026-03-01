@@ -1,3 +1,27 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+env/
+
+# Database
+db.sqlite3
+*.sqlite3
+
+# Environment secrets
+.env
+
+# macOS
+.DS_Store
+
+# Static collected files
+staticfiles/
+
+# IDE
+.vscode/
+.idea/
 venv/
 __pycache__/
 *.pyc
