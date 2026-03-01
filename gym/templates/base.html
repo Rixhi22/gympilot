@@ -23,12 +23,14 @@ body {
 /* ===== Header ===== */
 
 .top-header {
-    
+    display: flex;
     background: white;
+    justify-content: space-between;
     padding: 35px 0 10px 0;
     text-align: center;
     border-bottom: 3px solid rgba(0,0,0,0.05);
 }
+
 
 .brand-title {
     font-weight: 950;
@@ -59,6 +61,8 @@ body {
     gap: 10px;
     position: relative;
 }
+
+
 .top-nav .nav-left {
     display: flex;
     gap: 10px;
@@ -67,15 +71,7 @@ body {
 }
 
 
-.top-nav .nav-right {
-    display: flex;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    margin-top: 100px;
-    margin-top: 20px;
-    transform: translateY(-50%);
-}
+
 
 .top-nav a {
     text-decoration: none;
@@ -165,8 +161,8 @@ body {
     }
     .top-header{
         display: flex;
-        justify-content:  space-around;
-        gap: 6px;
+        justify-content:space-around;
+        gap: 10px;
     }
     .main {
         padding: 20px 12px;
@@ -198,7 +194,7 @@ body {
         width: 100%;
     }
 
-    .top-nav .nav-right {
+    .nav-right {
         position: static;
         transform: none;
         justify-content: center;
@@ -215,15 +211,16 @@ body {
 
 <!-- HEADER -->
 <div class="top-header">
-    <div>
-    <h2 class="brand-title">GYM PILOT</h2>
-    <div class="brand-tagline">Navigate » Manage » Grow.</div>
+    <div></div>
+    <div class="head-left">
+       <h2 class="brand-title">GYM PILOT</h2>
+       <div class="brand-tagline">Navigate » Manage » Grow.</div>
     </div>
-    <div class="nav-right" style="align-items: ;">
+    <div class="head-right mt-2">
           <!-- LOGOUT -->
           <form method="POST" action="{% url 'gym:owner_logout' %}" class="logout-btn m-0">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-right: 100px;text-align: r;">
+                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-right: 50px;">
                      Logout
                 </button>
           </form>
@@ -249,9 +246,6 @@ body {
           <a href="{% url 'gym:subscriptions' %}"
               class="{% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">Subscriptions</a>
      </div>
-
-    
-
 </div>
 
 <!-- PAGE CONTENT -->
