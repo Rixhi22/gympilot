@@ -76,7 +76,7 @@ class Subscription(models.Model):
     personal_training_fee = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     final_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    member_code = models.CharField(max_length=10, unique=True, blank=True)
+    member_code = models.CharField(max_length=20, unique=True, null=True, blank=True, editable=False)
 
  
 
@@ -97,19 +97,19 @@ class Subscription(models.Model):
 
     # ---------------- SAVE ----------------
     def save(self, *args, **kwargs):
+        if not self.member_code:
+            last = Subscription.objects.order_by('-id').first()
 
-        # expiry calculation (CORRECT)
-        total_months = self.plan.duration_months + (self.extra_months or 0)
-        self.expiry_date = self.start_date + timedelta(days=30 * total_months)
+            if last and last.member_code:
+                last_number = int(last.member_code.split('-')[1])
+                new_number = last_number + 1
+            else:
+                new_number = 1
 
-        # amount calculation
-        self.calculate_amount()
+            self.member_code = f"GP-{new_number:04d}"
 
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        
-        return f"{self.member.name} - {self.plan.name}"
 
 
 # ===============================

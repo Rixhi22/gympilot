@@ -68,83 +68,57 @@
 const planField = document.getElementById("id_plan");
 const extraMonthsField = document.getElementById("id_extra_months");
 const discountField = document.getElementById("id_discount_percent");
-const ptField = document.getElementById("id_personal_training_fee");
+const ptFeeField = document.getElementById("id_personal_training_fee");
 
+const previewBox = document.getElementById("planPreview");
 const priceEl = document.getElementById("planPrice");
 const monthsEl = document.getElementById("planMonths");
 const expiryEl = document.getElementById("planExpiry");
 const finalEl = document.getElementById("finalAmount");
-const previewBox = document.getElementById("planPreview");
-const startDateField = document.getElementById("id_start_date");
 
-let basePrice = 0;
-let baseMonths = 0;
-
-
-/* ---------------- LOAD PLAN DETAILS ---------------- */
-
-async function loadPlan() {
+async function calculatePreview() {
 
     const planId = planField.value;
-    if (!planId) return;
-
-    const response = await fetch(`/plan-details/${planId}/`);
-    const data = await response.json();
-
-    basePrice = parseFloat(data.price);
-    baseMonths = parseInt(data.duration);
+    if (!planId) {
+        previewBox.style.display = "none";
+        return;
+    }
 
     previewBox.style.display = "block";
 
-    calculatePreview();
-}
+    const response = await fetch(`/app/plan-details/${planId}/`);
+    const data = await response.json();
 
-
-/* ---------------- CALCULATE PREVIEW ---------------- */
-
-function calculatePreview(){
+    let basePrice = parseFloat(data.price);
+    let baseMonths = parseInt(data.duration);
 
     let extra = parseInt(extraMonthsField.value || 0);
     let discount = parseFloat(discountField.value || 0);
-    let pt = parseFloat(ptField.value || 0);
+    let ptFee = parseFloat(ptFeeField.value || 0);
 
     let totalMonths = baseMonths + extra;
 
-    /* expiry calculation: use selected start date if provided */
-    let expiryDate;
-    if (startDateField && startDateField.value) {
-        expiryDate = new Date(startDateField.value);
-    } else {
-        expiryDate = new Date();
-    }
-    expiryDate.setMonth(expiryDate.getMonth() + totalMonths);
+    // Expiry
+    let today = new Date();
+    let expiry = new Date(today);
+    expiry.setMonth(expiry.getMonth() + totalMonths);
 
-    const formattedExpiry = expiryDate.toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-    });
+    // Final amount
+    let amount = basePrice + ptFee;
+    amount = amount - (amount * (discount/100));
 
-    /* price calculation: extra months do NOT increase price (free extra months) */
-    let base = parseFloat(basePrice || 0);
-    let discountedPrice = base - (base * (discount / 100 || 0));
-    let finalAmount = discountedPrice + (pt || 0);
-
-    /* update UI */
-    priceEl.innerText = basePrice ? parseFloat(basePrice).toFixed(2) : "0.00";
-    monthsEl.innerText = totalMonths + " Month(s)";
-    expiryEl.innerText = formattedExpiry;
-    finalEl.innerText = finalAmount.toFixed(2);
+    priceEl.innerText = basePrice.toFixed(2);
+    monthsEl.innerText = totalMonths;
+    expiryEl.innerText = expiry.toDateString();
+    finalEl.innerText = amount.toFixed(2);
 }
 
-
-/* ---------------- EVENT LISTENERS ---------------- */
-
-planField.addEventListener("change", loadPlan);
+planField.addEventListener("change", calculatePreview);
 extraMonthsField.addEventListener("input", calculatePreview);
 discountField.addEventListener("input", calculatePreview);
-ptField.addEventListener("input", calculatePreview);
-if (startDateField) startDateField.addEventListener("change", calculatePreview);
+ptFeeField.addEventListener("input", calculatePreview);
+
+</script>
 
 </script>
 

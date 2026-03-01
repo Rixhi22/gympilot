@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GymPilot — Gym Management Software</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    font-family: system-ui, -apple-system, Segoe UI, Roboto;
+    background:#f8fafc;
+}
+
+/* Top bar */
+.navbar{
+    background:white;
+    padding:14px 30px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+}
+
+.brand{
+    font-weight:800;
+    font-size:22px;
+    letter-spacing:1px;
+}
+
+.sign-btn{
+    background:#0071e3;
+    color:white;
+    padding:8px 18px;
+    border-radius:10px;
+    text-decoration:none;
+}
+
+/* Hero */
+.hero{
+    text-align:center;
+    padding:110px 20px 80px;
+}
+
+.hero h1{
+    font-size:52px;
+    font-weight:900;
+}
+
+.hero p{
+    font-size:18px;
+    color:#6b7280;
+    margin-top:10px;
+}
+
+/* Features */
+.features{
+    padding:60px 20px;
+}
+
+.card-feature{
+    background:white;
+    padding:28px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.05);
+    text-align:center;
+}
+.hero {
+    text-align:center;
+    padding:120px 20px 80px;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef5ff 100%);
+}
+
+.hero h1{
+    font-size:52px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.hero p{
+    font-size:18px;
+    color:#6b7280;
+    margin-top:12px;
+    max-width:650px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar d-flex justify-content-between align-items-center">
+    <div class="brand">GYM PILOT</div>
+    <a href="/app/login/" class="sign-btn">Sign In</a>
+</div>
+
+<!-- HERO -->
+
+<section class="hero">
+    <h1>Stop Managing Gym in Notebook</h1>
+    <p>GymPilot automatically tracks members, payments, and expiry dates so you never miss renewals again.</p>
+
+```
+<div style="margin-top:30px;">
+    <a href="/login/" class="sign-btn" style="margin-right:10px;">Owner Sign In</a>
+
+    <a href="https://wa.me/916384645968?text=Hi%20I%20want%20a%20demo%20of%20GymPilot"
+       class="btn btn-success"
+       style="padding:10px 18px; border-radius:10px;">
+       Book Free Demo
+    </a>
+</div>
+```
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="features container">
+    <div class="row g-4">
+
+```
+    <div class="col-md-4">
+        <div class="card-feature">
+            <h4>Members</h4>
+            <p>Add and monitor all your gym members easily.</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card-feature">
+            <h4>Payments</h4>
+            <p>Know who paid and who didn’t instantly.</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card-feature">
+            <h4>Expiry Alerts</h4>
+            <p>Never miss membership renewals again.</p>
+        </div>
+    </div>
+
+</div>
+```
+
+</section>
+<!-- SOFTWARE PREVIEW -->
+
+<section style="padding:90px 20px; background:white;">
+    <div class="container text-center">
+
+```
+    <h2 style="font-weight:800; margin-bottom:15px;">
+        See GymPilot in Action
+    </h2>
+
+    <p style="color:#6b7280; margin-bottom:50px;">
+        Simple dashboard designed for gym owners — no computer knowledge required.
+    </p>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <img src="{% static 'screens/dashboard.png' %}" class="img-fluid rounded shadow">
+            <p style="margin-top:10px;">Owner Dashboard</p>
+        </div>
+
+        <div class="col-md-4">
+            <img src="{% static 'screens/members.png' %}" class="img-fluid rounded shadow">
+            <p style="margin-top:10px;">Members List</p>
+        </div>
+
+        <div class="col-md-4">
+            <img src="{% static 'screens/payments.png' %}" class="img-fluid rounded shadow">
+            <p style="margin-top:10px;">Payment Tracking</p>
+        </div>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+</body>
+</html>

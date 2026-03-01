@@ -14,6 +14,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gym',
+    'website',
+
 ]
 
 JAZZMIN_SETTINGS = {
@@ -168,14 +170,16 @@ WSGI_APPLICATION = 'project_r.wsgi.application'
 
 
 import dj_database_url
+import os
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL'),
+    "default": dj_database_url.parse(
+        "postgresql://postgres.irqmjuevdfyyciomfira:GympilotDB%402026@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres",
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=True,
     )
 }
+
 
 
 # ======================================================
@@ -282,3 +286,5 @@ CSRF_TRUSTED_ORIGINS = [
     'https://www.gympilot.online',
     'https://*.onrender.com'
 ]
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"

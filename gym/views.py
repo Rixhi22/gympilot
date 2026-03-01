@@ -27,7 +27,7 @@ def owner_login(request):
         if user:
             if Gym.objects.filter(owner=user).exists():
                 login(request, user)
-                return redirect("gym:dashboard")
+                return redirect("/app/")
             else:
                 messages.error(request, "Not a Gym Owner account.")
         else:
@@ -107,7 +107,7 @@ def members_list(request):
     gym = Gym.objects.filter(owner=request.user).first()
     if not gym:
                 return redirect('gym:dashboard')
-    members = Member.objects.filter(gym=gym)
+    members = Member.objects.filter(gym=gym).order_by("-id")
     return render(request, "members.html", {"members": members})
 
 
