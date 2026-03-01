@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+# Import custom user for owner reference
 from datetime import timedelta
 from django.utils import timezone
 from decimal import Decimal

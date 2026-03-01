@@ -1,8 +1,9 @@
 from django.urls import path, include
-from gym.admin import custom_admin_site
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('superadmin/', custom_admin_site.urls),
+    path('superadmin/', admin.site.urls),
 
     # gym app urls
     path('', include(('gym.urls', 'gym'), namespace='gym')),

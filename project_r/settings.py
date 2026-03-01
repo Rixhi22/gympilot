@@ -9,6 +9,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'gym',
 ]
+
 JAZZMIN_SETTINGS = {
 
     # Title on browser tab
