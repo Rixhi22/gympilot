@@ -82,8 +82,10 @@ body {
 .top-nav a {
     text-decoration: none;
     color: #333;
-    font-weight: 500;
-    padding: 5px 8px;
+    font-size: 18px;        /* 👈 increase size */
+    font-weight: 600;       /* slightly bolder */
+    padding: 6px 10px;
+    transition: color 0.2s ease;
 }
 
 .top-nav a:hover {
@@ -92,9 +94,8 @@ body {
 
 .top-nav a.active {
     color: #0071e3;
-    font-weight: 600;
+    font-weight: 700;
 }
-
 /* ===== Logout button ===== */
 
 .logout-btn button {
@@ -120,8 +121,8 @@ body {
 }
 
 .glass-card:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0px 20px 45px rgba(9, 9, 9, 0.876);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.08);
 }
 
 .stat-number {
@@ -130,15 +131,33 @@ body {
 }
 
 /* Subscription / mobile card hover effect: defined globally so all cards behave similarly */
+/* ===== MOBILE CARD (Match Plans Exactly) ===== */
+
 .subscription-card {
-    transition: transform 160ms ease, box-shadow 160ms ease;
+    background: #ffffff;
+    padding: 22px 22px;
+    border-radius: 22px;
+    margin-bottom: 28px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    transition: all 180ms ease;
 }
 
+/* Mild hover like Plans */
 .subscription-card:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 18px 45px rgba(0,0,0,0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
 }
 
+/* Typography inside cards */
+.subscription-card div {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #222;
+}
+
+.subscription-card strong {
+    font-weight: 600;
+}
 /* ===== Buttons ===== */
 
 .btn-modern {
@@ -193,7 +212,7 @@ body {
     }
 
     .top-nav a {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .logout-btn {
