@@ -41,7 +41,11 @@
     <label class="form-label">Personal Training Fee</label>
     {{ form.personal_training_fee }}
 </div>
-
+<!-- Payment Mode -->
+<div class="mb-3">
+    <label class="form-label">Payment Mode</label>
+    {{ form.payment_mode }}
+</div>
 <button type="submit" class="btn-modern w-100 mt-3">
     Create Subscription
 </button>
@@ -69,6 +73,7 @@ const planField = document.getElementById("id_plan");
 const extraMonthsField = document.getElementById("id_extra_months");
 const discountField = document.getElementById("id_discount_percent");
 const ptFeeField = document.getElementById("id_personal_training_fee");
+const startDateField = document.getElementById("id_start_date");
 
 const previewBox = document.getElementById("planPreview");
 const priceEl = document.getElementById("planPrice");
@@ -99,10 +104,17 @@ async function calculatePreview() {
     let totalMonths = baseMonths + extra;
 
     // Expiry
-    let today = new Date();
-    let expiry = new Date(today);
-    expiry.setMonth(expiry.getMonth() + totalMonths);
+    let startDateValue = startDateField.value;
 
+    if (!startDateValue) {
+        previewBox.style.display = "none";
+        return;
+    }
+
+let startDate = new Date(startDateValue);
+let expiry = new Date(startDate);
+
+expiry.setMonth(expiry.getMonth() + totalMonths);
     // Final amount
     let amount = basePrice + ptFee;
     amount = amount - (amount * (discount/100));
@@ -117,7 +129,7 @@ planField.addEventListener("change", calculatePreview);
 extraMonthsField.addEventListener("input", calculatePreview);
 discountField.addEventListener("input", calculatePreview);
 ptFeeField.addEventListener("input", calculatePreview);
-
+startDateField.addEventListener("change", calculatePreview);
 </script>
 
 </script>

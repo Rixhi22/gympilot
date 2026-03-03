@@ -33,9 +33,8 @@ urlpatterns = [
     path('subscriptions/delete/<int:sub_id>/', views.delete_subscription, name='delete_subscription'),
     path('subscriptions/renew/<int:subscription_id>/', views.renew_subscription, name='renew_subscription'),
 
-    # PAYMENTS
-    path('payments/', views.payments_list, name='payments'),
-
     # AJAX PLAN
     path('plan-details/<int:plan_id>/', views.plan_details, name='plan_details'),
+
+    path('export-data/', views.download_my_gym_data, name='export_data'),
 ]

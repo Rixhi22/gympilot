@@ -170,18 +170,17 @@ WSGI_APPLICATION = 'project_r.wsgi.application'
 
 
 import dj_database_url
-import os
+from decouple import config
 
 DATABASES = {
     "default": dj_database_url.parse(
         "postgresql://postgres.irqmjuevdfyyciomfira:GympilotDB%402026@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres",
-        conn_max_age=600,
+        conn_max_age=0,   # VERY IMPORTANT (fixes Supabase lock)
         ssl_require=True,
     )
 }
 
-
-
+DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
 # ======================================================
 # PASSWORD VALIDATION
 # ======================================================
@@ -287,4 +286,5 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com'
 ]
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+

@@ -113,7 +113,9 @@ class SubscriptionForm(forms.ModelForm):
             'start_date',
             'extra_months',
             'discount_percent',
-            'personal_training_fee'
+            'personal_training_fee',
+            'payment_mode',   # ✅ ADD THIS
+
         ]
 
         widgets = {
@@ -139,6 +141,9 @@ class SubscriptionForm(forms.ModelForm):
                 'type': 'date',
                 'class': 'form-control'
             }),
+            'payment_mode': forms.Select(attrs={
+                'class': 'form-control'
+}),
         }
 
     def __init__(self, *args, **kwargs):

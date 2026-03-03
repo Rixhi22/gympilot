@@ -10,11 +10,9 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from decimal import Decimal
 import json
-
-from .models import Payment, Subscription, Gym, Member, MembershipPlan
+from django.db import IntegrityError, transaction
 from .forms import MemberForm, PlanForm, SubscriptionForm
-
-
+from .models import Subscription, Gym, Member, MembershipPlan, Payment
 # ================= OWNER LOGIN =================
 
 def owner_login(request):
@@ -60,31 +58,30 @@ def dashboard(request):
     subscriptions = Subscription.objects.filter(gym=gym)
 
     # TOTAL REVENUE
-    total_revenue = Payment.objects.filter(
-        subscription__gym=gym
+    total_revenue = Subscription.objects.filter(
+    gym=gym
     ).aggregate(total=Sum('amount_paid'))['total'] or Decimal("0.00")
-
     active_members = subscriptions.filter(expiry_date__gt=three_days_later)
     expiring_members = subscriptions.filter(expiry_date__range=[today, three_days_later])
     expired_members = subscriptions.filter(expiry_date__lt=today)
 
     # MONTHLY REVENUE
     monthly_revenue = (
-        Payment.objects
-        .filter(subscription__gym=gym)
-        .annotate(month=TruncMonth('payment_date'))
-        .values('month')
-        .annotate(total=Sum('amount_paid'))
-        .order_by('month')
-    )
+    Subscription.objects
+    .filter(gym=gym)
+    .annotate(month=TruncMonth('paid_on'))
+    .values('month')
+    .annotate(total=Sum('amount_paid'))
+    .order_by('month')
+)
 
     months = []
     totals = []
 
     for item in monthly_revenue:
-        months.append(item['month'].strftime("%b %Y"))
-        totals.append(float(item['total'] or 0))
-
+        if item['month']:
+         months.append(item['month'].strftime("%b %Y"))
+         totals.append(float(item['total'] or 0))
     context = {
         'total_revenue': total_revenue,
         'active_count': active_members.count(),
@@ -202,18 +199,6 @@ def delete_plan(request, plan_id):
     return redirect("gym:plans")
 
 
-# ================= PAYMENTS =================
-
-@login_required
-def payments_list(request):
-    gym = get_object_or_404(Gym, owner=request.user)
-
-    payments = Payment.objects.filter(
-        subscription__gym=gym
-    ).order_by("-payment_date")
-
-    return render(request, "payments.html", {"payments": payments})
-
 
 # ================= SUBSCRIPTIONS =================
 
@@ -235,10 +220,12 @@ def subscriptions_list(request):
     })
 
 
+ 
 # ADD SUBSCRIPTION
 @login_required
 def add_subscription(request):
     gym = get_object_or_404(Gym, owner=request.user)
+    today = timezone.now().date()
 
     if request.method == "POST":
         form = SubscriptionForm(request.POST)
@@ -246,72 +233,88 @@ def add_subscription(request):
         form.fields["plan"].queryset = MembershipPlan.objects.filter(gym=gym)
 
         if form.is_valid():
-            subscription = form.save(commit=False)
-            subscription.gym = gym
+            data = form.cleaned_data
+            member = data["member"]
+            plan = data["plan"]
 
-            today = timezone.now().date()
+            active_subscription = Subscription.objects.filter(
+                gym=gym,
+                member=member,
+                expiry_date__gte=today
+            ).first()
 
-# subscription always starts today
-            subscription.start_date = today
+            if active_subscription and not request.POST.get("force_expire"):
+                return render(request, "confirm_replace.html", {
+                    "form": form,
+                    "active_subscription": active_subscription
+                })
 
-# calculate expiry from plan duration
-            total_months = subscription.plan.duration_months + subscription.extra_months
-            subscription.expiry_date = today + relativedelta(months=total_months)
+            if active_subscription:
+                active_subscription.expiry_date = today - timedelta(days=1)
+                active_subscription.expiry_reason = "replaced"
+                active_subscription.save()
 
-            subscription.save()
-
-
-            # AUTO CREATE PAYMENT
-            Payment.objects.create(
-                subscription=subscription,
-                amount_paid=subscription.final_amount,
-                payment_date=timezone.now().date(),
-                payment_method="Cash"
+            Subscription.objects.create(
+                gym=gym,
+                member=member,
+                plan=plan,
+                start_date=data["start_date"],                extra_months=data["extra_months"],
+                discount_percent=data["discount_percent"],
+                personal_training_fee=data["personal_training_fee"],
+                payment_mode=data["payment_mode"],
+                paid_on=today
             )
 
-            messages.success(request, "Subscription added successfully!")
+            messages.success(request, "Subscription created successfully!")
             return redirect("gym:subscriptions")
 
     else:
-        form = SubscriptionForm()
+        member_id = request.GET.get("member")
+        plan_id = request.GET.get("plan")
+        extra = request.GET.get("extra")
+        discount = request.GET.get("discount")
+        pt = request.GET.get("pt")
+
+        initial_data = {}
+
+        if member_id:
+            initial_data["member"] = member_id
+        if plan_id:
+            initial_data["plan"] = plan_id
+        if extra:
+            initial_data["extra_months"] = extra
+        if discount:
+            initial_data["discount_percent"] = discount
+        if pt:
+            initial_data["personal_training_fee"] = pt
+
+        form = SubscriptionForm(initial=initial_data)
         form.fields["member"].queryset = Member.objects.filter(gym=gym)
         form.fields["plan"].queryset = MembershipPlan.objects.filter(gym=gym)
 
     return render(request, "add_subscription.html", {"form": form})
 
 
+
 # RENEW SUBSCRIPTION
 @login_required
 def renew_subscription(request, subscription_id):
     gym = get_object_or_404(Gym, owner=request.user)
-    subscription = get_object_or_404(Subscription, id=subscription_id, gym=gym)
+    old_subscription = get_object_or_404(Subscription, id=subscription_id, gym=gym)
 
     today = timezone.now().date()
 
-    if subscription.expiry_date < today:
-        new_start = today
-    else:
-        new_start = subscription.expiry_date
+    if old_subscription.expiry_date >= today:
+        messages.error(request, "This subscription is still active.")
+        return redirect("gym:subscriptions")
 
-    total_months = subscription.plan.duration_months + subscription.extra_months
-    new_expiry = new_start + relativedelta(months=total_months)
-
-    subscription.start_date = new_start
-    subscription.expiry_date = new_expiry
-    subscription.save()
-
-    Payment.objects.create(
-        subscription=subscription,
-        amount_paid=subscription.final_amount,
-        payment_date=today,
-        payment_method="Cash",
-        billing_start=new_start,
-    billing_end=new_expiry
+    return redirect(
+        f"/app/add-subscription/?member={old_subscription.member.id}"
+        f"&plan={old_subscription.plan.id}"
+        f"&extra={old_subscription.extra_months}"
+        f"&discount={old_subscription.discount_percent}"
+        f"&pt={old_subscription.personal_training_fee}"
     )
-
-    messages.success(request, "Membership renewed successfully!")
-    return redirect("gym:subscriptions")
-
 # ================= EDIT SUBSCRIPTION =================
 @login_required
 def edit_subscription(request, sub_id):
@@ -366,3 +369,10 @@ def delete_subscription(request, sub_id):
         messages.success(request, "Subscription deleted successfully!")
 
     return redirect("gym:subscriptions")
+
+from .utils.export_excel import export_gym_data
+
+@login_required
+def download_my_gym_data(request):
+    gym = get_object_or_404(Gym, owner=request.user)
+    return export_gym_data(gym)

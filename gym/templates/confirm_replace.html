@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="glass-card text-center">
+
+    <h4>⚠ Active Subscription Exists</h4>
+
+    <p>
+        This member already has an active plan until 
+        <strong>{{ active_subscription.expiry_date }}</strong>
+    </p>
+
+    <p>Do you want to expire it and add new subscription?</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Preserve form data -->
+        {% for field in form %}
+            <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+        {% endfor %}
+
+        <input type="hidden" name="force_expire" value="yes">
+
+        <button type="submit" class="btn btn-danger">
+            Expire & Add New
+        </button>
+
+        <a href="{% url 'gym:add_subscription' %}" class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+
+</div>
+
+{% endblock %}

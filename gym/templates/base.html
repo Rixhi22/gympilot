@@ -255,9 +255,6 @@ body {
           <a href="{% url 'gym:plans' %}"
               class="{% if request.resolver_match.url_name == 'plans' %}active{% endif %}">Plans</a>
 
-          <a href="{% url 'gym:payments' %}"
-              class="{% if request.resolver_match.url_name == 'payments' %}active{% endif %}">Payments</a>
-
           <a href="{% url 'gym:subscriptions' %}"
               class="{% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">Subscriptions</a>
      </div>

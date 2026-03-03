@@ -15,8 +15,10 @@
                     <th>S.No</th>
                     <th>Member</th>
                     <th>Plan</th>
+                    <th>Payment</th>
                     <th>Expiry Date</th>
                     <th>Status</th>
+
                     <th style="width:260px;">Action</th>
                 </tr>
             </thead>
@@ -26,6 +28,7 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ sub.member.name }}</td>
                     <td>{{ sub.plan.name }}</td>
+                    <td>{{ sub.payment_mode }}</td>
                     <td>{{ sub.expiry_date|date:"d M Y" }}</td>
 
                     <!-- STATUS -->
@@ -59,11 +62,10 @@
                         </form>
 
                         <!-- RENEW -->
-                        {% if sub.expiry_date <= today_plus_3 %}
-                            <a href="{% url 'gym:renew_subscription' sub.id %}"
-                               class="btn btn-warning btn-sm">
+                        {% if sub.expiry_date < today and sub.expiry_reason == "natural" %}
+                            <a href="{% url 'gym:renew_subscription' sub.id %}" class="btn btn-warning btn-sm">
                                 Renew
-                            </a>
+                             </a>
                         {% endif %}
 
                     </td>
@@ -115,11 +117,10 @@
                     </button>
                 </form>
 
-                {% if sub.expiry_date <= today_plus_3 %}
-                    <a href="{% url 'gym:renew_subscription' sub.id %}"
-                       class="btn-modern btn-sm text-center">
-                        Renew Membership
-                    </a>
+                {% if sub.expiry_date < today and sub.expiry_reason == "natural" %}
+                    <a href="{% url 'gym:renew_subscription' sub.id %}" class="btn btn-warning btn-sm">
+                         Renew
+                     </a>
                 {% endif %}
 
             </div>
