@@ -53,8 +53,7 @@ class MemberForm(forms.ModelForm):
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
 
-        if not phone.isdigit():
-            raise forms.ValidationError("Phone must contain only digits.")
+        if not phone or not phone.isdigit():            raise forms.ValidationError("Phone must contain only digits.")
 
         if len(phone) != 10:
             raise forms.ValidationError("Enter valid 10 digit number.")
@@ -129,7 +128,9 @@ class SubscriptionForm(forms.ModelForm):
 
             'discount_percent': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'value': 0
+                'min': 0,
+                'max': 100,
+                'step': 0.01
             }),
 
             'personal_training_fee': forms.NumberInput(attrs={

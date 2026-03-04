@@ -89,5 +89,23 @@
     </div>
 
 </div>
+<div class="d-flex justify-content-center mt-4">
 
+{% if members.has_previous %}
+<a href="?page={{ members.previous_page_number }}" class="btn btn-outline-primary me-2">
+Previous
+</a>
+{% endif %}
+
+<span class="align-self-center">
+Page {{ members.number }} of {{ members.paginator.num_pages }}
+</span>
+
+{% if members.has_next %}
+<a href="?page={{ members.next_page_number }}" class="btn btn-outline-primary ms-2">
+Next
+</a>
+{% endif %}
+
+</div>
 {% endblock %}

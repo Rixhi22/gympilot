@@ -99,14 +99,30 @@ def dashboard(request):
 
 # ================= MEMBERS =================
 
+from django.core.paginator import Paginator
+
 @login_required
 def members_list(request):
+
     gym = Gym.objects.filter(owner=request.user).first()
     if not gym:
-                return redirect('gym:dashboard')
-    members = Member.objects.filter(gym=gym).order_by("-id")
-    return render(request, "members.html", {"members": members})
+        return redirect('gym:dashboard')
 
+    members_qs = (
+        Member.objects
+        .filter(gym=gym)
+        .order_by("-id")
+    )
+
+    paginator = Paginator(members_qs, 20)   # 20 members per page
+
+    page_number = request.GET.get("page")
+
+    members = paginator.get_page(page_number)
+
+    return render(request, "members.html", {
+        "members": members
+    })
 
 @login_required
 def add_member(request):
@@ -202,13 +218,25 @@ def delete_plan(request, plan_id):
 
 # ================= SUBSCRIPTIONS =================
 
+from django.core.paginator import Paginator
+
 @login_required
 def subscriptions_list(request):
+
     gym = get_object_or_404(Gym, owner=request.user)
 
-    subscriptions = Subscription.objects.filter(
-        gym=gym
-    ).select_related("member", "plan")
+    subscriptions_qs = (
+        Subscription.objects
+        .filter(gym=gym)
+        .select_related("member", "plan")
+        .order_by("-id")
+    )
+
+    paginator = Paginator(subscriptions_qs, 20)
+
+    page_number = request.GET.get("page")
+
+    subscriptions = paginator.get_page(page_number)
 
     today = timezone.now().date()
     today_plus_3 = today + timedelta(days=3)
@@ -218,7 +246,6 @@ def subscriptions_list(request):
         "today": today,
         "today_plus_3": today_plus_3,
     })
-
 
  
 # ADD SUBSCRIPTION

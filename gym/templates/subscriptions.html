@@ -138,7 +138,25 @@
         Add Subscription
     </a>
 </div>
+<div class="d-flex justify-content-center mt-4">
 
+{% if subscriptions.has_previous %}
+<a href="?page={{ subscriptions.previous_page_number }}" class="btn btn-outline-primary me-2">
+Previous
+</a>
+{% endif %}
+
+<span class="align-self-center">
+Page {{ subscriptions.number }} of {{ subscriptions.paginator.num_pages }}
+</span>
+
+{% if subscriptions.has_next %}
+<a href="?page={{ subscriptions.next_page_number }}" class="btn btn-outline-primary ms-2">
+Next
+</a>
+{% endif %}
+
+</div>
 <!-- RESPONSIVE -->
 <style>
 .mobile-cards { display: none; }

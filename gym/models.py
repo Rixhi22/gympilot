@@ -72,8 +72,7 @@ class Subscription(models.Model):
     plan = models.ForeignKey(MembershipPlan, on_delete=models.PROTECT)
 
     start_date = models.DateField(default=timezone.localdate)
-    expiry_date = models.DateField(blank=True, null=True)
-
+    expiry_date = models.DateField()
     extra_months = models.IntegerField(default=0)
     discount_percent = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     personal_training_fee = models.DecimalField(max_digits=8, decimal_places=2, default=0)
@@ -110,8 +109,7 @@ class Subscription(models.Model):
     def save(self, *args, **kwargs):
 
         if not self.member_code:
-            last = Subscription.objects.order_by('-id').first()
-
+            last = Subscription.objects.order_by('-member_code').first()
             if last and last.member_code:
                 last_number = int(last.member_code.split('-')[1])
                 new_number = last_number + 1
@@ -153,3 +151,15 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.subscription.member.name} - ₹{self.amount_paid}"
+    
+gym = models.ForeignKey(Gym, on_delete=models.CASCADE, db_index=True)
+
+member = models.ForeignKey(Member, on_delete=models.PROTECT, db_index=True)
+
+plan = models.ForeignKey(MembershipPlan, on_delete=models.PROTECT)
+
+subscription = models.ForeignKey(
+    Subscription,
+    on_delete=models.CASCADE,
+    db_index=True
+)
