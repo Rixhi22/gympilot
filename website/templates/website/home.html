@@ -1,90 +1,214 @@
 {% load static %}
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GymPilot — Gym Management Software</title>
+<title>GymPilot — Smart Gym Management</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
+
+:root{
+--brand-green:#37E33A;
+--brand-green-dark:#1FAE3A;
+--brand-gradient:linear-gradient(135deg,#37E33A,#1FAE3A);
+--brand-glow:0 0 25px rgba(55,227,58,0.6);
+}
+
 body{
-    font-family: system-ui, -apple-system, Segoe UI, Roboto;
-    background:#f8fafc;
+font-family: system-ui,-apple-system,Segoe UI,Roboto;
+background:#000;
+color:white;
+margin:0;
 }
 
-/* Top bar */
+/* NAVBAR */
+
 .navbar{
-    background:white;
-    padding:14px 30px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+background:#000;
+padding:20px;
+border-bottom:1px solid #111;
 }
 
-.brand{
-    font-weight:800;
-    font-size:22px;
-    letter-spacing:1px;
+.navbar a{
+color:white;
+text-decoration:none;
+font-weight:500;
+margin-left:25px;
 }
 
-.sign-btn{
-    background:#0071e3;
-    color:white;
-    padding:8px 18px;
-    border-radius:10px;
-    text-decoration:none;
+.navbar a:hover{
+background:var(--brand-gradient);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
-/* Hero */
+/* HERO */
+
 .hero{
-    text-align:center;
-    padding:110px 20px 80px;
+text-align:center;
+padding:140px 20px 120px;
+background:#000;
 }
 
 .hero h1{
-    font-size:52px;
-    font-weight:900;
+font-size:64px;
+font-weight:900;
+letter-spacing:-1px;
+background:var(--brand-gradient);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .hero p{
-    font-size:18px;
-    color:#6b7280;
-    margin-top:10px;
+color:#9ca3af;
+font-size:20px;
+max-width:650px;
+margin:auto;
+margin-top:20px;
 }
 
-/* Features */
-.features{
-    padding:60px 20px;
+.hero-buttons{
+margin-top:35px;
 }
 
-.card-feature{
-    background:white;
-    padding:28px;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.05);
-    text-align:center;
-}
-.hero {
-    text-align:center;
-    padding:120px 20px 80px;
-    background: linear-gradient(180deg, #f8fafc 0%, #eef5ff 100%);
+/* PRIMARY BUTTON */
+
+.btn-primary-brand{
+background:var(--brand-gradient);
+border:none;
+padding:14px 32px;
+border-radius:10px;
+font-weight:600;
+color:black;
+box-shadow:var(--brand-glow);
+transition:0.3s;
 }
 
-.hero h1{
-    font-size:52px;
-    font-weight:900;
-    letter-spacing:-1px;
+.btn-primary-brand:hover{
+transform:translateY(-3px);
+box-shadow:0 0 40px rgba(55,227,58,0.9);
 }
 
-.hero p{
-    font-size:18px;
-    color:#6b7280;
-    margin-top:12px;
-    max-width:650px;
-    margin-left:auto;
-    margin-right:auto;
+/* GREEN BUTTON */
+
+.btn-primary-green{
+background:var(--brand-gradient);
+border:none;
+padding:14px 32px;
+border-radius:10px;
+font-weight:600;
+color:black;
+transition:0.25s;
+}
+
+.btn-primary-green:hover{
+opacity:0.9;
+transform:translateY(-2px);
+}
+
+/* OUTLINE BUTTON */
+
+.btn-outline-brand{
+background:transparent;
+border:2px solid var(--brand-green);
+color:white;
+padding:14px 32px;
+border-radius:10px;
+margin-left:15px;
+transition:0.25s;
+}
+
+.btn-outline-brand:hover{
+background:var(--brand-green);
+color:black;
+}
+
+/* SECTION */
+
+.section{
+padding:100px 20px;
+}
+
+/* FEATURE CARDS */
+
+.feature-card{
+background:#111;
+padding:40px;
+border-radius:18px;
+text-align:center;
+transition:0.3s;
+border:1px solid transparent;
+background-image:
+linear-gradient(#111,#111),
+linear-gradient(135deg,#37E33A,#1FAE3A);
+background-origin:border-box;
+background-clip:padding-box,border-box;
+}
+
+.feature-card:hover{
+transform:translateY(-8px);
+box-shadow:0 25px 50px rgba(0,0,0,0.7);
+}
+
+/* PREVIEW */
+
+.preview img{
+border-radius:16px;
+box-shadow:0 30px 60px rgba(0,0,0,0.7);
+}
+
+/* PRICING */
+
+.pricing-card{
+background:#111;
+padding:45px;
+border-radius:18px;
+text-align:center;
+border:1px solid #1a1a1a;
+transition:0.25s;
+}
+
+.pricing-card:hover{
+border:1px solid var(--brand-green);
+transform:translateY(-6px);
+}
+
+.price{
+font-size:42px;
+font-weight:800;
+margin:20px 0;
+background:var(--brand-gradient);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* CTA */
+
+.cta{
+background:var(--brand-gradient);
+color:black;
+text-align:center;
+padding:90px 20px;
+}
+
+/* FOOTER */
+
+footer{
+background:#000;
+padding:60px 20px;
+color:#9ca3af;
+border-top:1px solid #111;
+}
+
+footer a{
+color:#9ca3af;
+text-decoration:none;
 }
 
 </style>
@@ -96,98 +220,213 @@ body{
 <!-- NAVBAR -->
 
 <div class="navbar d-flex justify-content-between align-items-center">
-    <div class="brand">GYM PILOT</div>
-    <a href="/app/login/" class="sign-btn">Sign In</a>
+
+<img src="{% static 'images/logo.jpg' %}" height="70">
+
+<div>
+<a href="#features">Features</a>
+<a href="#pricing">Pricing</a>
+<a href="/app/login/">Login</a>
+</div>
+
 </div>
 
 <!-- HERO -->
 
 <section class="hero">
-    <h1>Stop Managing Gym in Notebook</h1>
-    <p>GymPilot automatically tracks members, payments, and expiry dates so you never miss renewals again.</p>
 
-```
-<div style="margin-top:30px;">
-    <a href="/login/" class="sign-btn" style="margin-right:10px;">Owner Sign In</a>
+<h1>Run Your Gym Like a Pro</h1>
 
-    <a href="https://wa.me/916384645968?text=Hi%20I%20want%20a%20demo%20of%20GymPilot"
-       class="btn btn-success"
-       style="padding:10px 18px; border-radius:10px;">
-       Book Free Demo
-    </a>
+<p>
+GymPilot helps gym owners manage members, track payments
+and monitor membership expiry in one simple dashboard.
+</p>
+
+<div class="hero-buttons">
+
+<button class="btn-primary-brand">
+Book Demo
+</button>
+
+<button class="btn-outline-brand">
+View Pricing
+</button>
+
 </div>
-```
 
 </section>
 
 <!-- FEATURES -->
 
-<section class="features container">
-    <div class="row g-4">
+<section class="section text-center" id="features">
 
-```
-    <div class="col-md-4">
-        <div class="card-feature">
-            <h4>Members</h4>
-            <p>Add and monitor all your gym members easily.</p>
-        </div>
-    </div>
+<div class="container">
 
-    <div class="col-md-4">
-        <div class="card-feature">
-            <h4>Payments</h4>
-            <p>Know who paid and who didn’t instantly.</p>
-        </div>
-    </div>
+<h2 style="font-weight:800;margin-bottom:60px;">
+Everything You Need to Run Your Gym
+</h2>
 
-    <div class="col-md-4">
-        <div class="card-feature">
-            <h4>Expiry Alerts</h4>
-            <p>Never miss membership renewals again.</p>
-        </div>
-    </div>
+<div class="row g-4">
+
+<div class="col-md-4">
+<div class="feature-card">
+<h4>Members</h4>
+<p>Add and manage all your gym members easily.</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="feature-card">
+<h4>Payments</h4>
+<p>Track payments and know who paid instantly.</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="feature-card">
+<h4>Expiry Alerts</h4>
+<p>Never miss membership renewals again.</p>
+</div>
+</div>
 
 </div>
-```
-
-</section>
-<!-- SOFTWARE PREVIEW -->
-
-<section style="padding:90px 20px; background:white;">
-    <div class="container text-center">
-
-```
-    <h2 style="font-weight:800; margin-bottom:15px;">
-        See GymPilot in Action
-    </h2>
-
-    <p style="color:#6b7280; margin-bottom:50px;">
-        Simple dashboard designed for gym owners — no computer knowledge required.
-    </p>
-
-    <div class="row g-4">
-
-        <div class="col-md-4">
-            <img src="{% static 'screens/dashboard.png' %}" class="img-fluid rounded shadow">
-            <p style="margin-top:10px;">Owner Dashboard</p>
-        </div>
-
-        <div class="col-md-4">
-            <img src="{% static 'screens/members.png' %}" class="img-fluid rounded shadow">
-            <p style="margin-top:10px;">Members List</p>
-        </div>
-
-        <div class="col-md-4">
-            <img src="{% static 'screens/payments.png' %}" class="img-fluid rounded shadow">
-            <p style="margin-top:10px;">Payment Tracking</p>
-        </div>
-
-    </div>
 
 </div>
-```
 
 </section>
+
+<!-- PREVIEW -->
+
+<section class="section preview text-center">
+
+<div class="container">
+
+<h2 style="font-weight:800;margin-bottom:60px;">
+See GymPilot in Action
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+<img src="{% static 'screens/dashboard.png' %}" class="img-fluid">
+<p class="mt-3">Dashboard</p>
+</div>
+
+<div class="col-md-4">
+<img src="{% static 'screens/members.png' %}" class="img-fluid">
+<p class="mt-3">Members</p>
+</div>
+
+<div class="col-md-4">
+<img src="{% static 'screens/payments.png' %}" class="img-fluid">
+<p class="mt-3">Payments</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PRICING -->
+
+<section class="section text-center" id="pricing">
+
+<div class="container">
+
+<h2 style="font-weight:800;margin-bottom:60px;">
+Simple Pricing
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+<div class="pricing-card">
+<h4>Free Trial</h4>
+<p>Try GymPilot before subscribing.</p>
+<div class="price">Free</div>
+<button class="btn-primary-green">Start Trial</button>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="pricing-card">
+<h4>Monthly</h4>
+<div class="price">₹499</div>
+<p>Full access to all features.</p>
+<button class="btn-primary-green">Subscribe</button>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="pricing-card">
+<h4>Yearly</h4>
+<div class="price">₹5499</div>
+<p>Save more with annual plan.</p>
+<button class="btn-primary-green">Subscribe</button>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+<h2 style="font-weight:900;font-size:40px;">
+Start Managing Your Gym Smarter
+</h2>
+
+<p style="margin-top:10px;">
+Perfect for small gyms, fitness studios and personal trainers.
+</p>
+
+<button class="btn btn-dark mt-4">
+Book Free Demo
+</button>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-4">
+<h4>GymPilot</h4>
+<p>Smart gym management software for gym owners.</p>
+</div>
+
+<div class="col-md-4">
+<h5>Product</h5>
+<p><a href="#features">Features</a></p>
+<p><a href="#pricing">Pricing</a></p>
+</div>
+
+<div class="col-md-4">
+<h5>Contact</h5>
+<p>WhatsApp: +91 63846 45968</p>
+<p>Email: support@gympilot.in</p>
+</div>
+
+</div>
+
+<hr>
+
+<div class="text-center">
+© 2026 GymPilot
+</div>
+
+</div>
+
+</footer>
 
 </body>
 </html>
