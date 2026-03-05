@@ -1,104 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login | Gym SaaS</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<title>GymPilot Login</title>
 
-        .login-card {
-            width: 400px;
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            color: white;
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-        .login-card h3 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
+<style>
 
-        .form-control {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            border-radius: 12px;
-            padding: 12px;
-        }
+:root{
+--primary:#38ef7d;
+--dark:#0b0b0b;
+--card:#111;
+--text:#ffffff;
+--muted:#9ca3af;
+}
 
-        .form-control:focus {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            box-shadow: none;
-        }
+body{
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#0b0b0b,#1a1a1a);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+color:white;
+}
 
-        .btn-login {
-            background: #0071e3;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 500;
-        }
+/* LOGIN CARD */
 
-        .btn-login:hover {
-            background: #005bb5;
-        }
+.login-card{
+width:420px;
+max-width:100%;
+background:var(--card);
+padding:40px;
+border-radius:18px;
+box-shadow:0 25px 60px rgba(0,0,0,0.6);
+}
 
-        .forgot-link {
-            text-align: center;
-            margin-top: 15px;
-        }
+/* TITLE */
 
-        .forgot-link a {
-            color: #93c5fd;
-            text-decoration: none;
-            font-size: 14px;
-        }
+.login-title{
+text-align:center;
+font-weight:600;
+margin-bottom:30px;
+}
 
-        .forgot-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+/* INPUT */
+
+.form-control{
+background:#1b1b1b;
+border:1px solid #333;
+color:white;
+border-radius:12px;
+padding:12px;
+}
+
+.form-control:focus{
+background:#1b1b1b;
+border-color:#38ef7d;
+color:white;
+box-shadow:none;
+}
+
+/* LOGIN BUTTON */
+
+.btn-login{
+background:var(--primary);
+border:none;
+padding:12px;
+border-radius:12px;
+font-weight:600;
+color:black;
+}
+
+.btn-login:hover{
+opacity:0.9;
+}
+
+/* LINK */
+
+.forgot-link{
+text-align:center;
+margin-top:15px;
+}
+
+.forgot-link a{
+color:#9ca3af;
+text-decoration:none;
+font-size:14px;
+}
+
+.forgot-link a:hover{
+color:#38ef7d;
+}
+
+</style>
+
 </head>
+
 <body>
 
 <div class="login-card">
-    <h3>Gym SaaS Login</h3>
 
-    <form method="POST">
-        {% csrf_token %}
+<h3 class="login-title">GymPilot Login</h3>
 
-        <div class="mb-3">
-            <input type="text" name="username" class="form-control" placeholder="Username" required>
-        </div>
+<form method="POST">
 
-        <div class="mb-3">
-            <input type="password" name="password" class="form-control" placeholder="Password" required>
-        </div>
+{% csrf_token %}
 
-        <button type="submit" class="btn btn-login w-100">
-            Login
-        </button>
-    </form>
+<div class="mb-3">
+<input type="text"
+name="username"
+class="form-control"
+placeholder="Username"
+required>
+</div>
 
-    <div class="forgot-link">
-        <a href="{% url 'gym:password_reset' %}">Forgot Password?</a>
-    </div>
+<div class="mb-3">
+<input type="password"
+name="password"
+class="form-control"
+placeholder="Password"
+required>
+</div>
+
+<button type="submit" class="btn btn-login w-100">
+Login
+</button>
+
+</form>
+
+<div class="forgot-link">
+<a href="{% url 'gym:password_reset' %}">Forgot Password?</a>
+</div>
+
 </div>
 
 </body>

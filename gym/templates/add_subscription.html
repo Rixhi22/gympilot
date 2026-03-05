@@ -1,72 +1,137 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2 class="mb-4 fw-semibold">Add Subscription</h2>
+<!-- ================= PAGE HEADER ================= -->
 
-<div class="glass-card subscription-form">
+<div class="mb-4">
+    <h2 class="fw-semibold">Add Subscription</h2>
+</div>
+
+
+<!-- ================= FORM ================= -->
+
+<div class="glass-card subscription-form col-md-6">
 
 <form method="POST">
+
 {% csrf_token %}
 
-<!-- Member -->
+
+<!-- MEMBER -->
+
 <div class="mb-3">
-    <label class="form-label">Member</label>
-    {{ form.member }}
+
+<label class="form-label">Member</label>
+
+{{ form.member }}
+
 </div>
 
-<!-- Plan -->
+
+<!-- PLAN -->
+
 <div class="mb-3">
-    <label class="form-label">Plan</label>
-    {{ form.plan }}
-</div>
-<div class="mb-3">
-    <label class="form-label">Joining Date</label>
-    {{ form.start_date }}
+
+<label class="form-label">Plan</label>
+
+{{ form.plan }}
+
 </div>
 
-<!-- Extra Months -->
+
+<!-- JOIN DATE -->
+
 <div class="mb-3">
-    <label class="form-label">Extra Months (Offer 2+1 / 6+1)</label>
-    {{ form.extra_months }}
+
+<label class="form-label">Joining Date</label>
+
+{{ form.start_date }}
+
 </div>
 
-<!-- Discount -->
+
+<!-- EXTRA MONTHS -->
+
 <div class="mb-3">
-    <label class="form-label">Discount Percentage (%)</label>
-    {{ form.discount_percent }}
+
+<label class="form-label">Extra Months (Offer 2+1 / 6+1)</label>
+
+{{ form.extra_months }}
+
 </div>
 
-<!-- Personal Training -->
+
+<!-- DISCOUNT -->
+
 <div class="mb-3">
-    <label class="form-label">Personal Training Fee</label>
-    {{ form.personal_training_fee }}
+
+<label class="form-label">Discount Percentage (%)</label>
+
+{{ form.discount_percent }}
+
 </div>
-<!-- Payment Mode -->
+
+
+<!-- PERSONAL TRAINING -->
+
 <div class="mb-3">
-    <label class="form-label">Payment Mode</label>
-    {{ form.payment_mode }}
+
+<label class="form-label">Personal Training Fee</label>
+
+{{ form.personal_training_fee }}
+
 </div>
-<button type="submit" class="btn-modern w-100 mt-3">
-    Create Subscription
+
+
+<!-- PAYMENT MODE -->
+
+<div class="mb-3">
+
+<label class="form-label">Payment Mode</label>
+
+{{ form.payment_mode }}
+
+</div>
+
+
+<div class="d-flex gap-2 mt-3">
+
+<button type="submit" class="btn-modern flex-grow-1">
+Create Subscription
 </button>
 
-</form>
+<a href="{% url 'gym:subscriptions' %}" class="btn btn-outline-secondary">
+Cancel
+</a>
+
 </div>
+
+</form>
+
+</div>
+
 
 
 <!-- ================= PREVIEW CARD ================= -->
 
-<div class="glass-card mt-4" id="planPreview" style="display:none;">
-    <h5 class="mb-3">Subscription Preview</h5>
+<div class="glass-card mt-4 col-md-6" id="planPreview" style="display:none;">
 
-    <p><strong>Plan Price:</strong> ₹ <span id="planPrice">0</span></p>
-    <p><strong>Total Months:</strong> <span id="planMonths">0</span></p>
-    <p><strong>Expiry Date:</strong> <span id="planExpiry">--</span></p>
-    <p><strong>Final Amount:</strong> ₹ <span id="finalAmount">0</span></p>
+<h5 class="mb-3">Subscription Preview</h5>
+
+<p><strong>Plan Price:</strong> ₹ <span id="planPrice">0</span></p>
+
+<p><strong>Total Months:</strong> <span id="planMonths">0</span></p>
+
+<p><strong>Expiry Date:</strong> <span id="planExpiry">--</span></p>
+
+<p><strong>Final Amount:</strong> ₹ <span id="finalAmount">0</span></p>
+
 </div>
 
 
+
 <!-- ================= JAVASCRIPT ================= -->
+
 <script>
 
 const planField = document.getElementById("id_plan");
@@ -84,6 +149,7 @@ const finalEl = document.getElementById("finalAmount");
 async function calculatePreview() {
 
     const planId = planField.value;
+
     if (!planId) {
         previewBox.style.display = "none";
         return;
@@ -103,7 +169,6 @@ async function calculatePreview() {
 
     let totalMonths = baseMonths + extra;
 
-    // Expiry
     let startDateValue = startDateField.value;
 
     if (!startDateValue) {
@@ -111,11 +176,11 @@ async function calculatePreview() {
         return;
     }
 
-let startDate = new Date(startDateValue);
-let expiry = new Date(startDate);
+    let startDate = new Date(startDateValue);
+    let expiry = new Date(startDate);
 
-expiry.setMonth(expiry.getMonth() + totalMonths);
-    // Final amount
+    expiry.setMonth(expiry.getMonth() + totalMonths);
+
     let amount = basePrice + ptFee;
     amount = amount - (amount * (discount/100));
 
@@ -130,7 +195,6 @@ extraMonthsField.addEventListener("input", calculatePreview);
 discountField.addEventListener("input", calculatePreview);
 ptFeeField.addEventListener("input", calculatePreview);
 startDateField.addEventListener("change", calculatePreview);
-</script>
 
 </script>
 

@@ -1,111 +1,156 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="mb-4 mt-3">
-    <h2 class="fw-semibold">Members</h2>
+<!-- ================= PAGE HEADER ================= -->
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+
+<h2 class="fw-semibold m-0">Members</h2>
+
+<a href="{% url 'gym:add_member' %}" 
+class="btn-modern text-decoration-none">
+Add Member
+</a>
+
 </div>
-<div class="d-flex justify-content-end mb-3">
-        <a href="{% url 'gym:add_member' %}" 
-           class="btn-modern text-decoration-none">
-            Add Member
-        </a>
-    </div>
+
+
+<!-- ================= MEMBER TABLE ================= -->
 
 <div class="glass-card">
 
+<table class="table align-middle">
 
-    <!-- ADD BUTTON (INSIDE MAIN BOX) -->
-    
+<thead>
+<tr>
+<th>S.No</th>
+<th>Name</th>
+<th>Phone</th>
+<th>Join Date</th>
+<th style="width:200px;">Action</th>
+</tr>
+</thead>
 
-    <!-- ================= DESKTOP TABLE ================= -->
-    <div class="desktop-table d-none d-md-block">
-        <table class="table modern-table align-middle">
-            <thead>
-                <tr>
-                    <th>S.No</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Join Date</th>
-                    <th style="width:200px;">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for member in members %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ member.name }}</td>
-                    <td>{{ member.phone }}</td>
-                    <td>{{ member.join_date|date:"d M Y" }}</td>
-                    <td class="d-flex gap-2">
-                        <a href="{% url 'gym:edit_member' member.id %}" 
-                           class="btn btn-sm btn-primary">Edit</a>
+<tbody>
 
-                        <form method="POST" action="{% url 'gym:delete_member' member.id %}">
-                            {% csrf_token %}
-                            <button type="submit"
-                                class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Delete this member?');">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" class="text-center text-muted">
-                        No members found.
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+{% for member in members %}
 
-    <!-- ================= MOBILE CARDS ================= -->
-    <div class="mobile-cards d-block d-md-none">
-        {% for member in members %}
-        <div class="subscription-card mb-3 font-size-14">
-            <div><strong>Name:</strong> {{ member.name }}</div>
-            <div><strong>Phone:</strong> {{ member.phone }}</div>
-            <div><strong>Join Date:</strong> {{ member.join_date|date:"d M Y" }}</div>
+<tr>
 
-            <div class="mt-3 d-grid gap-2">
-                <a href="{% url 'gym:edit_member' member.id %}" 
-                   class="btn btn-primary btn-sm">Edit</a>
+<td>{{ forloop.counter }}</td>
 
-                <form method="POST" action="{% url 'gym:delete_member' member.id %}">
-                    {% csrf_token %}
-                    <button type="submit"
-                        class="btn btn-outline-danger btn-sm w-100"
-                        onclick="return confirm('Delete this member?');">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-        {% empty %}
-        <p class="text-muted text-center">No members found.</p>
-        {% endfor %}
-    </div>
+<td>{{ member.name }}</td>
+
+<td>{{ member.phone }}</td>
+
+<td>{{ member.join_date|date:"d M Y" }}</td>
+
+<td class="d-flex gap-2">
+
+<a href="{% url 'gym:edit_member' member.id %}" 
+class="btn btn-sm btn-primary">
+Edit
+</a>
+
+<form method="POST" action="{% url 'gym:delete_member' member.id %}">
+{% csrf_token %}
+
+<button type="submit"
+class="btn btn-sm btn-outline-danger"
+onclick="return confirm('Delete this member?');">
+Delete
+</button>
+
+</form>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="5" class="text-center text-muted py-4">
+No members found.
+</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
 
 </div>
+
+
+<!-- ================= MOBILE CARDS ================= -->
+
+<div class="mobile-cards d-block d-md-none mt-3">
+
+{% for member in members %}
+
+<div class="subscription-card">
+
+<div><strong>Name:</strong> {{ member.name }}</div>
+
+<div><strong>Phone:</strong> {{ member.phone }}</div>
+
+<div><strong>Join Date:</strong> {{ member.join_date|date:"d M Y" }}</div>
+
+<div class="mt-3 d-grid gap-2">
+
+<a href="{% url 'gym:edit_member' member.id %}" 
+class="btn btn-primary btn-sm">
+Edit
+</a>
+
+<form method="POST" action="{% url 'gym:delete_member' member.id %}">
+{% csrf_token %}
+
+<button type="submit"
+class="btn btn-outline-danger btn-sm w-100"
+onclick="return confirm('Delete this member?');">
+Delete
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<!-- ================= PAGINATION ================= -->
+
 <div class="d-flex justify-content-center mt-4">
 
 {% if members.has_previous %}
-<a href="?page={{ members.previous_page_number }}" class="btn btn-outline-primary me-2">
+
+<a href="?page={{ members.previous_page_number }}" 
+class="btn btn-outline-primary me-2">
 Previous
 </a>
+
 {% endif %}
 
-<span class="align-self-center">
+<span class="align-self-center px-2">
 Page {{ members.number }} of {{ members.paginator.num_pages }}
 </span>
 
 {% if members.has_next %}
-<a href="?page={{ members.next_page_number }}" class="btn btn-outline-primary ms-2">
+
+<a href="?page={{ members.next_page_number }}" 
+class="btn btn-outline-primary ms-2">
 Next
 </a>
+
 {% endif %}
 
 </div>
+
 {% endblock %}

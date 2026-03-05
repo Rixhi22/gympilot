@@ -1,35 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="glass-card text-center">
+<!-- ================= WARNING CARD ================= -->
 
-    <h4>⚠ Active Subscription Exists</h4>
+<div class="glass-card text-center col-md-6 mx-auto">
 
-    <p>
-        This member already has an active plan until 
-        <strong>{{ active_subscription.expiry_date }}</strong>
-    </p>
+<h4 class="mb-3 text-warning">Active Subscription Exists</h4>
 
-    <p>Do you want to expire it and add new subscription?</p>
+<p class="mb-3">
+This member already has an active plan until
+<strong>{{ active_subscription.expiry_date }}</strong>
+</p>
 
-    <form method="POST">
-        {% csrf_token %}
+<p class="text-muted mb-4">
+Do you want to expire it and add a new subscription?
+</p>
 
-        <!-- Preserve form data -->
-        {% for field in form %}
-            <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
-        {% endfor %}
 
-        <input type="hidden" name="force_expire" value="yes">
+<form method="POST">
 
-        <button type="submit" class="btn btn-danger">
-            Expire & Add New
-        </button>
+{% csrf_token %}
 
-        <a href="{% url 'gym:add_subscription' %}" class="btn btn-secondary">
-            Cancel
-        </a>
-    </form>
+<!-- Preserve form data -->
+
+{% for field in form %}
+<input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+{% endfor %}
+
+<input type="hidden" name="force_expire" value="yes">
+
+
+<div class="d-flex justify-content-center gap-2">
+
+<button type="submit" class="btn btn-danger">
+Expire & Add New
+</button>
+
+<a href="{% url 'gym:add_subscription' %}" class="btn btn-outline-secondary">
+Cancel
+</a>
+
+</div>
+
+</form>
 
 </div>
 

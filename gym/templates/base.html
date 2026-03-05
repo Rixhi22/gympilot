@@ -3,292 +3,352 @@
 <html lang="en">
 <head>
 
-    <!-- PWA manifest removed to make this a regular website -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
 
-    <title>GYM PILOT</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+<title>GYM PILOT</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-body {
-    font-family: 'Inter', sans-serif;
-    /*background: black;*/
-    overflow-x: hidden;
-}
 
-/* ===== Header ===== */
+/* ================= GLOBAL THEME ================= */
 
-.top-header {
-    background: white;
-    padding: 35px 0 20px 0;
-    border-bottom: 3px solid rgba(0,0,0,0.05);
-}
-.head-right {
-    position: absolute;
-    right: 20px;
-    top: 25px;
-    
-}
-.head-left {
-    text-align: center;
-}
+:root{
+--primary:#38ef7d;
+--primary-soft:#2edc73;
+--primary-glow:#3cff88;
 
-.brand-title {
-    font-weight: 950;
-    font-size: large;
-    letter-spacing: 5px;
-    margin: 0;
-    font-size: 36px;
-    display: inline-block;
-    
+--dark:#0b0b0b;
+--card:#111;
+--text:#ffffff;
+--muted:#9ca3af;
 }
-
-.brand-tagline {
-    font-size: 15px;
-    color: #6b7280;
-    margin-top: 4px;
-}
-
-/* ===== NAVIGATION ===== */
-
-.top-nav {
-    background: white;
-    padding: 12px 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    position: relative;
+body{
+font-family:'Inter',sans-serif;
+background:var(--dark);
+color:var(--text);
+overflow-x:hidden;
 }
 
 
-.top-nav .nav-left {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+/* ================= HEADER ================= */
+
+.top-header{
+background:#000;
+padding:22px 0;
+border-bottom:1px solid #1a1a1a;
+}
+
+.head-right{
+position:absolute;
+right:20px;
+top:22px;
+}
+
+.head-left{
+text-align:center;
+}
+
+.logo-img{
+height:85px;
+object-fit:contain;
 }
 
 
+/* ================= NAVBAR ================= */
 
-
-.top-nav a {
-    text-decoration: none;
-    color: #333;
-    font-size: 18px;        /* 👈 increase size */
-    font-weight: 600;       /* slightly bolder */
-    padding: 6px 6px;
-    transition: color 0.2s ease;
+.top-nav{
+background:#000;
+padding:12px 10px;
+border-bottom:1px solid #1a1a1a;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:25px;
 }
 
-.top-nav a:hover {
-    color: #0071e3;
+.top-nav a{
+text-decoration:none;
+color:#9ca3af;
+font-size:16px;
+font-weight:600;
+padding:6px 8px;
+transition:all .2s ease;
 }
 
-.top-nav a.active {
-    color: #0071e3;
-    font-weight: 700;
-}
-/* ===== Logout button ===== */
-
-.logout-btn button {
-    border-radius: 10px;
-    padding: 4px 12px;
+.top-nav a:hover{
+color:var(--primary);
 }
 
-/* ===== Main Content ===== */
-
-.main {
-    padding: 40px;
-    
+.top-nav a.active{
+color:var(--primary);
+text-shadow:0 0 8px rgba(56,239,125,0.5);
 }
 
-/* ===== Cards ===== */
+/* ================= MAIN CONTENT ================= */
 
-.glass-card {
-    background:white;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    transition: transform 160ms ease, box-shadow 160ms ease;
+.main{
+padding:50px 30px;
+max-width:1200px;
+margin:auto;
 }
 
-.glass-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 32px rgba(0,0,0,0.08);
+
+/* ================= GLASS CARD ================= */
+.glass-card{
+background:#0f0f0f;
+border-radius:20px;
+padding:25px;
+border:1px solid rgba(56,239,125,0.12);
+box-shadow:0 15px 40px rgba(0,0,0,0.6);
+transition:all .25s ease;
 }
 
-.stat-number {
-    font-size: 28px;
-    font-weight: 600;
+.glass-card:hover{
+transform:translateY(-4px);
+border:1px solid rgba(56,239,125,0.25);
+box-shadow:
+0 20px 50px rgba(0,0,0,0.8),
+0 0 15px rgba(56,239,125,0.25);
+}
+/* ================= DASHBOARD TEXT FIX ================= */
+
+.glass-card small,
+.glass-card span,
+.glass-card p,
+.glass-card h5,
+.glass-card h6{
+color:#ffffff !important;
 }
 
-/* Subscription / mobile card hover effect: defined globally so all cards behave similarly */
-/* ===== MOBILE CARD (Match Plans Exactly) ===== */
 
-.subscription-card {
-    background: #ffffff;
-    padding: 22px 22px;
-    border-radius: 22px;
-    margin-bottom: 28px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-    transition: all 180ms ease;
+/* ================= DASHBOARD NUMBERS ================= */
+
+.stat-number{
+font-size:34px;
+font-weight:700;
+color:var(--primary);
+text-shadow:0 0 12px rgba(56,239,125,0.6);
 }
 
-/* Mild hover like Plans */
-.subscription-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+
+/* ================= MOBILE SUBSCRIPTION CARD ================= */
+
+/* ================= MOBILE SUBSCRIPTION CARD ================= */
+
+.subscription-card{
+background:#111;
+padding:22px;
+border-radius:18px;
+margin-bottom:20px;
+border:1px solid #1a1a1a;
+transition:all .2s ease;
 }
 
-/* Typography inside cards */
-.subscription-card div {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #222;
+.subscription-card:hover{
+transform:translateY(-3px);
+box-shadow:0 12px 25px rgba(0,0,0,0.6);
 }
 
-.subscription-card strong {
-    font-weight: 600;
-}
-/* ===== Buttons ===== */
-
-.btn-modern {
-    background: #0071e3;
-    border: none;
-    border-radius: 14px;
-    padding: 6px 16px;
-    color: white;
+.subscription-card div{
+font-size:15px;
+color:#ddd;
 }
 
-.btn-modern:hover {
-    background: #005bb5;
+.subscription-card strong{
+color:#fff;
 }
 
-/* ===== MOBILE ===== */
 
-@media (max-width: 768px) {
+/* ================= BUTTON ================= */
 
-    .brand-title {
-        font-size: 25px;
-        letter-spacing: 2px;
-    }
-
-    .brand-tagline {
-        font-size: 12px;
-    }
-    .head-left{
-        text-align: left;
-        margin-left: 10px;
-    }
-     .head-right{
-        position:absolute;
-        right: 0px;
-        top: 10px;
-      
-    }
-    .main {
-        padding: 20px 12px;
-    }
-
-    .stat-number {
-        font-size: 22px;
-    }
-
-    .nav-left{
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        align-items: stretch;
-        gap: 6px;
-        position: static;
-    }
-
-    .top-nav a {
-        font-size: 15px;
-    }
-
-    .logout-btn {
-        width: 60%;
-        text-align: center;
-    }
-
-    .logout-btn button {
-        width: 100%;
-    }
-
-    .nav-right {
-        position: static;
-        transform: none;
-        justify-content: center;
-        width: 100%;
-    }
+.btn-modern{
+background:var(--primary);
+border:none;
+border-radius:14px;
+padding:7px 18px;
+color:black;
+font-weight:600;
+box-shadow:0 0 12px rgba(56,239,125,0.4);
+transition:all .2s ease;
 }
+
+.btn-modern:hover{
+background:var(--primary-soft);
+box-shadow:0 0 18px rgba(56,239,125,0.6);
+}
+/* ================= INPUT ================= */
+
+input,select{
+background:#111 !important;
+border:1px solid #333 !important;
+color:white !important;
+}
+
+
+/* ================= GLASS TABLE ================= */
+
+.table{
+width:100%;
+margin:0;
+background:transparent !important;
+color:#ffffff !important;
+border:none;
+}
+
+.table thead{
+background:transparent !important;
+}
+
+.table thead th{
+color:#ffffff !important;
+font-weight:600;
+padding:20px;
+border-bottom:1px solid rgba(255,255,255,0.1);
+font-size:14px;
+}
+
+.table td{
+color:#ffffff !important;
+padding:18px 20px;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.table tbody tr{
+background:transparent !important;
+}
+
+.table tbody tr{
+transition:all .15s ease;
+}
+
+.table tbody tr:hover{
+background:rgba(56,239,125,0.06);
+}
+
+.table>:not(caption)>*>*{
+background:transparent !important;
+box-shadow:none !important;
+}
+
+
+/* ================= HEADINGS ================= */
+
+h2{
+font-weight:700;
+margin-bottom:25px;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width:768px){
+
+.logo-img{
+height:60px;
+}
+
+.head-left{
+text-align:left;
+margin-left:10px;
+}
+
+.head-right{
+position:absolute;
+right:0;
+top:10px;
+}
+
+.main{
+padding:20px 12px;
+}
+
+.stat-number{
+font-size:26px;
+}
+
+.top-nav{
+flex-wrap:wrap;
+gap:10px;
+}
+
+.top-nav a{
+font-size:15px;
+}
+
+}
+
 </style>
 
 </head>
 
-<!-- Service worker removed: this is a regular website now -->
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
+
 <div class="top-header">
-    
-    <div class="head-left">
-       <h2 class="brand-title">GYM PILOT</h2>
-       <div class="brand-tagline">Navigate » Manage » Grow.</div>
-    </div>
 
+<div class="head-left">
+<img src="{% static 'images/logo.jpg' %}" 
+     alt="Gym Pilot Logo"
+     class="logo-img">
+</div>
 
-    <div class="head-right mt-2">
-        
-          <!-- LOGOUT -->
-          <form method="POST" action="{% url 'gym:owner_logout' %}" class="logout-btn m-0">
-                {% csrf_token %}
-                    
-                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin: 30px;">
-                     Logout
-                </button>
-          </form>
-     </div>
+<div class="head-right">
+
+<form method="POST" action="{% url 'gym:owner_logout' %}">
+{% csrf_token %}
+<button type="submit" class="btn btn-outline-danger btn-sm">
+Logout
+</button>
+</form>
+
+</div>
+
 </div>
 
 
-<!-- NAVBAR -->
+<!-- ================= NAVIGATION ================= -->
+
 <div class="top-nav">
-     <div class="nav-left">
-          <a href="{% url 'gym:dashboard' %}"
-              class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
 
-          <a href="{% url 'gym:members' %}"
-              class="{% if request.resolver_match.url_name == 'members' %}active{% endif %}">Members</a>
+<a href="{% url 'gym:dashboard' %}"
+class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+Dashboard
+</a>
 
-          <a href="{% url 'gym:plans' %}"
-              class="{% if request.resolver_match.url_name == 'plans' %}active{% endif %}">Plans</a>
+<a href="{% url 'gym:members' %}"
+class="{% if request.resolver_match.url_name == 'members' %}active{% endif %}">
+Members
+</a>
 
-          <a href="{% url 'gym:subscriptions' %}"
-              class="{% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">Subscriptions</a>
-     </div>
+<a href="{% url 'gym:plans' %}"
+class="{% if request.resolver_match.url_name == 'plans' %}active{% endif %}">
+Plans
+</a>
+
+<a href="{% url 'gym:subscriptions' %}"
+class="{% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}">
+Subscriptions
+</a>
+
 </div>
 
-<!-- PAGE CONTENT -->
+
+<!-- ================= PAGE CONTENT ================= -->
+
 <div class="container main">
-    {% block content %}{% endblock %}
+{% block content %}
+{% endblock %}
 </div>
-  
-
-
-
-
-
 
 </body>
 </html>

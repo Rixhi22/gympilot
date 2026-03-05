@@ -1,154 +1,192 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
 <!-- ================= STATS ================= -->
 
 <div class="row g-3 mb-4">
 
-    <div class="col-6 col-md-3">
-        <div class="glass-card text-center text-md-start" >
-            <small>Total Revenue</small>
-            <div class="stat-number mt-2">₹ {{ total_revenue }}</div>
-        </div>
-    </div>
+<div class="col-6 col-md-3">
+<div class="glass-card text-center">
+<small>Total Revenue</small>
+<div class="stat-number mt-2">₹ {{ total_revenue }}</div>
+</div>
+</div>
 
-    <div class="col-6 col-md-3">
-        <div class="glass-card text-center text-md-start">
-            <small>Active Members</small>
-            <div class="stat-number mt-2">{{ active_count }}</div>
-        </div>
-    </div>
+<div class="col-6 col-md-3">
+<div class="glass-card text-center">
+<small>Active Members</small>
+<div class="stat-number mt-2">{{ active_count }}</div>
+</div>
+</div>
 
-    <div class="col-6 col-md-3">
-        <div class="glass-card text-center text-md-start">
-            <small>Expiring Soon</small>
-            <div class="stat-number mt-2">{{ expiring_count }}</div>
-        </div>
-    </div>
+<div class="col-6 col-md-3">
+<div class="glass-card text-center">
+<small>Expiring Soon</small>
+<div class="stat-number mt-2">{{ expiring_count }}</div>
+</div>
+</div>
 
-    <div class="col-6 col-md-3">
-        <div class="glass-card text-center text-md-start">
-            <small>Expired Members</small>
-            <div class="stat-number mt-2">{{ expired_count }}</div>
-        </div>
-    </div>
+<div class="col-6 col-md-3">
+<div class="glass-card text-center">
+<small>Expired Members</small>
+<div class="stat-number mt-2">{{ expired_count }}</div>
+</div>
+</div>
 
 </div>
+
 
 <!-- ================= CHART ================= -->
 
 <div class="glass-card mb-4">
-    <h5 class="mb-3">Monthly Revenue</h5>
-    <div style="position: relative; width: 100%; height: 280px;">
-        <canvas id="revenueChart"></canvas>
-    </div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+<h5 class="m-0">Monthly Revenue</h5>
 </div>
+
+<div style="position:relative;width:100%;height:320px;">
+<canvas id="revenueChart"></canvas>
+</div>
+
+</div>
+
 
 <!-- ================= EXPIRING MEMBERS ================= -->
 
 <div class="glass-card">
-    <h5 class="mb-3">Members Expiring Soon</h5>
 
-    <div class="table-responsive-sm">
-        <table class="table modern-table align-middle">
-            <thead>
-                <tr>
-                    <th>Member</th>
-                    <th>Expiry</th>
-                    <th>Subscription</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for sub in expiring_soon %}
-                <tr>
-                    <td>{{ sub.member.name }}</td>
-                        <td>{{ sub.expiry_date|date:"d M Y" }}</td>
-                    <td>{{ sub.plan.name }}</td>
-                    
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3" class="text-center text-muted">
-                        No members expiring soon.
-                    </td>
-                </tr>
-                {% endfor %}
-                <div><strong></strong> {{ sub.expiry_date|date:"d M Y" }}</div>
-            </tbody>
-        </table>
-    </div>
+<h5 class="mb-3">Members Expiring Soon</h5>
+
+<div class="table-responsive">
+
+<table class="table align-middle">
+
+<thead>
+<tr>
+<th>Member</th>
+<th>Expiry</th>
+<th>Subscription</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for sub in expiring_soon %}
+
+<tr>
+<td>{{ sub.member.name }}</td>
+<td>{{ sub.expiry_date|date:"d M Y" }}</td>
+<td>{{ sub.plan.name }}</td>
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="3" class="text-center">
+No members expiring soon.
+</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
 </div>
 
+</div>
+
+
+<!-- ================= EXPORT BUTTON ================= -->
+
+<div style="text-align:right;margin-top:25px;">
+
+<a href="{% url 'gym:export_data' %}" class="btn btn-modern">
+Export Gym Data
+</a>
+
+</div>
+
+
+
+<!-- ================= CHART JS ================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const months = JSON.parse('{{ months|escapejs }}');
-    const totals = JSON.parse('{{ totals|escapejs }}');
 
-    new Chart(document.getElementById('revenueChart'), {
-        type: 'line',
-        data: {
-            labels: months,
-            datasets: [{
-                label: 'Revenue',
-                data: totals,
-                borderColor: '#0071e3',
-                backgroundColor: 'rgba(0,113,227,0.1)',
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,   // 🔥 Important for mobile
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
-</script>
 <script>
-const isDark = localStorage.getItem("theme") === "dark";
 
-const textColor = isDark ? "#e5e7eb" : "#111";
-const gridColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)";
+const months = JSON.parse('{{ months|escapejs }}');
+const totals = JSON.parse('{{ totals|escapejs }}');
 
 const ctx = document.getElementById('revenueChart');
 
 new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: months,
-        datasets: [{
-            label: 'Monthly Revenue',
-            data: totals,
-            backgroundColor: '#3b82f6',
-            borderRadius: 6
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                labels: { color: textColor }
-            }
-        },
-        scales: {
-            x: {
-                ticks: { color: textColor },
-                grid: { color: gridColor }
-            },
-            y: {
-                ticks: { color: textColor },
-                grid: { color: gridColor },
-                beginAtZero: true
-            }
-        }
-    }
+
+type:'line',
+
+data:{
+labels:months,
+
+datasets:[{
+
+label:'Monthly Revenue',
+
+data:totals,
+
+borderColor:'#38ef7d',
+
+backgroundColor:'rgba(56,239,125,0.15)',
+
+fill:true,
+
+tension:0.4,
+
+pointRadius:5,
+
+pointBackgroundColor:'#38ef7d',
+
+pointHoverRadius:7
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{
+
+legend:{
+labels:{
+color:'#e5e7eb'
+}
+}
+
+},
+
+scales:{
+
+x:{
+ticks:{color:'#e5e7eb'},
+grid:{color:'rgba(255,255,255,0.08)'}
+},
+
+y:{
+ticks:{color:'#e5e7eb'},
+grid:{color:'rgba(255,255,255,0.08)'},
+beginAtZero:true
+}
+
+}
+
+}
+
 });
+
 </script>
-<div style="text-align: right; margin-top: 20px;">
-<a href="{% url 'gym:export_data' %}" class="btn btn-success" >
-    Gym Data
-</a></div>
 
 {% endblock %}
