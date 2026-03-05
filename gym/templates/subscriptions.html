@@ -31,7 +31,7 @@
                     <th>Member</th>
                     <th>Plan</th>
                     <th>Payment</th>
-                    <th>Expiry Date</th>
+                    <th>Expiry_Date</th>
                     <th>Status</th>
                     <th style="width:260px;">Action</th>
                 </tr>
@@ -59,13 +59,13 @@
                     <td>
 
                         {% if sub.expiry_date > today_plus_3 %}
-                            <span class="badge bg-success">Active</span>
+                            <span class="badge bg-success" style="font-size: 14px;">Active</span>
 
                         {% elif sub.expiry_date >= today %}
-                            <span class="badge bg-warning text-dark">Expiring Soon</span>
+                            <span class="badge bg-warning text-dark" style="font-size: 14px;">Expiring Soon</span>
 
                         {% else %}
-                            <span class="badge bg-danger">Expired</span>
+                            <span class="badge bg-danger" style="font-size: 14px;">Expired</span>
 
                         {% endif %}
 
@@ -141,13 +141,13 @@
             <div class="mt-2">
 
                 {% if sub.expiry_date > today_plus_3 %}
-                    <span class="badge bg-success">Active</span>
+                    <span class="badge bg-success"style="font-size: 14px;">Active</span>
 
                 {% elif sub.expiry_date >= today %}
-                    <span class="badge bg-warning text-dark">Expiring Soon</span>
+                    <span class="badge bg-warning text-dark" style="font-size: 14px;">Expiring Soon</span>
 
                 {% else %}
-                    <span class="badge bg-danger">Expired</span>
+                    <span class="badge bg-danger" style="font-size: 14px;">Expired</span>
 
                 {% endif %}
 

@@ -53,20 +53,68 @@ margin-bottom:30px;
 /* INPUT */
 
 .form-control{
-background:#1b1b1b;
-border:1px solid #333;
-color:white;
+background:#1b1b1b !important;
+border:1px solid #333 !important;
+color:#ffffff !important;
+caret-color:#38ef7d;
 border-radius:12px;
 padding:12px;
+font-weight:500;
 }
+/* placeholder fix */
+
+input::placeholder{
+color:#d1d5db !important;
+opacity:1 !important;
+}
+
+input::-webkit-input-placeholder{
+color:#d1d5db !important;
+}
+
+input:-ms-input-placeholder{
+color:#d1d5db !important;
+}
+
+/* Placeholder text fix */
+
+.form-control::placeholder{
+color:#cbd5e1 !important;
+opacity:1;
+}
+
+.form-control::-webkit-input-placeholder{
+color:#cbd5e1 !important;
+}
+
+.form-control:-ms-input-placeholder{
+color:#cbd5e1 !important;
+}
+
+/* Focus effect */
 
 .form-control:focus{
-background:#1b1b1b;
+background:#1b1b1b !important;
+border-color:#38ef7d !important;
+color:#ffffff !important;
+
+box-shadow:
+0 0 0 1px #38ef7d,
+0 0 10px rgba(56,239,125,0.5),
+0 0 20px rgba(56,239,125,0.25);
+
+outline:none;
+}
+.form-control:hover{
 border-color:#38ef7d;
-color:white;
-box-shadow:none;
+box-shadow:0 0 6px rgba(56,239,125,0.25);
 }
 
+.login-card:hover{
+box-shadow:
+0 30px 70px rgba(0,0,0,0.8),
+0 0 25px rgba(56,239,125,0.15);
+}
 /* LOGIN BUTTON */
 
 .btn-login{
@@ -80,6 +128,8 @@ color:black;
 
 .btn-login:hover{
 opacity:0.9;
+transform:translateY(-1px);
+box-shadow:0 0 12px rgba(56,239,125,0.4);
 }
 
 /* LINK */
@@ -109,23 +159,27 @@ color:#38ef7d;
 
 <h3 class="login-title">GymPilot Login</h3>
 
-<form method="POST">
+<form method="POST" autocomplete="off">
 
 {% csrf_token %}
 
 <div class="mb-3">
-<input type="text"
+<input
+type="text"
 name="username"
 class="form-control"
 placeholder="Username"
+autocomplete="off"
 required>
 </div>
 
 <div class="mb-3">
-<input type="password"
+<input
+type="password"
 name="password"
 class="form-control"
 placeholder="Password"
+autocomplete="off"
 required>
 </div>
 
