@@ -40,6 +40,10 @@ position:fixed;
 top:0;
 width:100%;
 z-index:1000;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .navbar a{
@@ -59,30 +63,7 @@ display:flex;
 align-items:center;
 }
 
-/* MOBILE NAV */
 
-@media(max-width:768px){
-
-.nav-links{
-flex-direction:column;
-align-items:flex-end;
-}
-
-.login-link{
-margin-bottom:5px;
-}
-
-.nav-bottom{
-display:flex;
-gap:15px;
-}
-
-.navbar a{
-margin-left:0;
-font-size:16px;
-}
-
-}
 .logo{
 height:85px;
 }
@@ -252,7 +233,6 @@ text-decoration:underline;
 margin-top:10px;
 color:#9ca3af;
 }
-
 /* MOBILE */
 
 @media(max-width:768px){
@@ -261,17 +241,35 @@ color:#9ca3af;
 height:60px;
 }
 
+/* NAVBAR MOBILE FIX */
+
+
 .navbar{
+flex-direction:column;
+align-items:center;
 padding:15px 20px;
+}
+
+.nav-links{
+display:flex;
+justify-content:center;
+gap:25px;
+margin-top:8px;
+width:100%;
 }
 
 .navbar a{
 font-size:16px;
-margin-left:15px;
+margin-left:0;
 }
 
+/* HERO */
+
 .hero{
-padding:140px 20px 60px;
+padding:130px 20px 60px;
+}
+.hero h1{
+word-break:keep-all;
 }
 
 .hero h1{
@@ -287,6 +285,8 @@ font-size:16px;
 flex-direction:column;
 gap:15px;
 }
+
+/* SECTIONS */
 
 .section{
 padding:50px 15px;
@@ -309,18 +309,16 @@ font-size:24px;
 
 <!-- NAVBAR -->
 
-<div class="navbar d-flex justify-content-between align-items-center">
+<div class="navbar">
 
 <img src="{% static 'images/logo.jpg' %}" class="logo">
 
 <div class="nav-links">
-<a href="/app/login/" class="login-link">Login</a>
-
-<div class="nav-bottom">
 <a href="#features">Features</a>
 <a href="#pricing">Pricing</a>
+<a href="/app/login/">Login</a>
 </div>
-</div>
+
 </div>
 
 <!-- HERO -->
