@@ -3,9 +3,24 @@
 
 <!-- ================= PAGE HEADER ================= -->
 
-<div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+<div class="d-flex justify-content-between align-items-center mb-4 mt-2 flex-wrap "d-flex gap>
 
 <h2 class="fw-semibold m-0">Members</h2>
+<!-- SEARCH BOX -->
+<form method="GET" class="d-none d-md-flex">
+
+<input
+type="text"
+name="search"
+value="{{ search }}"
+class="form-control me-2"
+placeholder="Search name or phone">
+
+<button class="btn btn-modern">
+Search
+</button>
+
+</form>
 
 <a href="{% url 'gym:add_member' %}" 
 class="btn-modern text-decoration-none">
@@ -131,7 +146,7 @@ Delete
 
 {% if members.has_previous %}
 
-<a href="?page={{ members.previous_page_number }}" 
+<a href="?page={{ members.previous_page_number }}&search={{ search }}" 
 class="btn btn-outline-primary me-2">
 Previous
 </a>
@@ -144,7 +159,7 @@ Page {{ members.number }} of {{ members.paginator.num_pages }}
 
 {% if members.has_next %}
 
-<a href="?page={{ members.next_page_number }}" 
+<a href="?page={{ members.next_page_number }}&search={{ search }}" 
 class="btn btn-outline-primary ms-2">
 Next
 </a>

@@ -108,22 +108,32 @@ def members_list(request):
     if not gym:
         return redirect('gym:dashboard')
 
+    search = request.GET.get("search","")
+
     members_qs = (
         Member.objects
         .filter(gym=gym)
         .order_by("-id")
     )
 
-    paginator = Paginator(members_qs, 20)   # 20 members per page
+    # SEARCH FILTER
+    if search:
+        members_qs = members_qs.filter(
+            name__icontains=search
+        ) | members_qs.filter(
+            phone__icontains=search
+        )
+
+    paginator = Paginator(members_qs, 20)
 
     page_number = request.GET.get("page")
 
     members = paginator.get_page(page_number)
 
     return render(request, "members.html", {
-        "members": members
+        "members": members,
+        "search": search
     })
-
 @login_required
 def add_member(request):
     gym = get_object_or_404(Gym, owner=request.user)
@@ -225,12 +235,20 @@ def subscriptions_list(request):
 
     gym = get_object_or_404(Gym, owner=request.user)
 
+    search = request.GET.get("search","")
+
     subscriptions_qs = (
         Subscription.objects
         .filter(gym=gym)
         .select_related("member", "plan")
         .order_by("-id")
     )
+
+    # SEARCH FILTER
+    if search:
+        subscriptions_qs = subscriptions_qs.filter(
+            member__name__icontains=search
+        )
 
     paginator = Paginator(subscriptions_qs, 20)
 
@@ -245,9 +263,8 @@ def subscriptions_list(request):
         "subscriptions": subscriptions,
         "today": today,
         "today_plus_3": today_plus_3,
+        "search": search
     })
-
- 
 # ADD SUBSCRIPTION
 @login_required
 def add_subscription(request):

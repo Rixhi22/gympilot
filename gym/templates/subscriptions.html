@@ -3,9 +3,24 @@
 
 <!-- ================= PAGE HEADER ================= -->
 
-<div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+<div class="d-flex justify-content-between align-items-center mb-4 mt-2 flex-wrap gap-2">
 
     <h2 class="fw-semibold m-0">Subscriptions</h2>
+
+    <!-- SEARCH -->
+<form method="GET" class="d-none d-md-flex">
+        <input
+        type="text"
+        name="search"
+        value="{{ search }}"
+        class="form-control me-2"
+        placeholder="Search member">
+
+        <button class="btn btn-modern">
+            Search
+        </button>
+
+    </form>
 
     <a href="{% url 'gym:add_subscription' %}" 
        class="btn-modern text-decoration-none">
@@ -53,7 +68,6 @@
 
                     <td>{{ sub.expiry_date|date:"d M Y" }}</td>
 
-
                     <!-- STATUS -->
 
                     <td>
@@ -70,7 +84,6 @@
                         {% endif %}
 
                     </td>
-
 
                     <!-- ACTION -->
 
@@ -141,7 +154,7 @@
             <div class="mt-2">
 
                 {% if sub.expiry_date > today_plus_3 %}
-                    <span class="badge bg-success"style="font-size: 14px;">Active</span>
+                    <span class="badge bg-success" style="font-size: 14px;">Active</span>
 
                 {% elif sub.expiry_date >= today %}
                     <span class="badge bg-warning text-dark" style="font-size: 14px;">Expiring Soon</span>
@@ -152,7 +165,6 @@
                 {% endif %}
 
             </div>
-
 
             <div class="mt-3 d-grid gap-2">
 
@@ -202,7 +214,7 @@
 
 {% if subscriptions.has_previous %}
 
-<a href="?page={{ subscriptions.previous_page_number }}" 
+<a href="?page={{ subscriptions.previous_page_number }}&search={{ search }}" 
    class="btn btn-outline-primary me-2">
    Previous
 </a>
@@ -210,14 +222,12 @@
 {% endif %}
 
 <span class="align-self-center px-2">
-
 Page {{ subscriptions.number }} of {{ subscriptions.paginator.num_pages }}
-
 </span>
 
 {% if subscriptions.has_next %}
 
-<a href="?page={{ subscriptions.next_page_number }}" 
+<a href="?page={{ subscriptions.next_page_number }}&search={{ search }}" 
    class="btn btn-outline-primary ms-2">
    Next
 </a>
@@ -225,6 +235,5 @@ Page {{ subscriptions.number }} of {{ subscriptions.paginator.num_pages }}
 {% endif %}
 
 </div>
-
 
 {% endblock %}
