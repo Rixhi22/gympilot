@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container d-none d-md-block">
+
+<h2 class="mb-4">Member Analytics</h2>
+
+<!-- ================= MEMBER COUNT ================= -->
+
+<div class="row justify-content-center mb-4 g-4">
+
+<div class="col-md-3">
+<div class="glass-card p-4 text-center">
+<h6 class="text-muted">Male Members</h6>
+<h2 style="color:#37E33A">{{ male }}</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="glass-card p-4 text-center">
+<h6 class="text-muted">Female Members</h6>
+<h2 style="color:#37E33A">{{ female }}</h2>
+</div>
+</div>
+
+</div>
+
+
+<!-- ================= CHARTS ================= -->
+
+<div class="row g-4">
+
+<!-- MEMBER GROWTH -->
+<div class="col-lg-6">
+
+<div class="glass-card p-4">
+
+<h6 class="text-center mb-3">Member Growth Trend</h6>
+
+<div style="height:260px;">
+<canvas id="growthChart"></canvas>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- AGE DISTRIBUTION -->
+<div class="col-lg-6">
+
+<div class="glass-card p-4">
+
+<h6 class="text-center mb-3">Age Distribution</h6>
+
+<div style="height:260px;">
+<canvas id="ageChart"></canvas>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= MOBILE MESSAGE ================= -->
+
+<div class="text-center mt-5 d-md-none">
+<h4>Analytics available on desktop only</h4>
+</div>
+
+
+<!-- ================= CHART.JS ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+
+</script>
+
+<script>
+
+const months = {{ months|default:"[]"|safe }};
+const totals = {{ totals|default:"[]"|safe }};
+const ageData = {{ age_data|default:"[0,0,0,0,0]"|safe }};
+
+
+/* ================= MEMBER GROWTH ================= */
+
+new Chart(
+document.getElementById('growthChart'),
+{
+type:'line',
+
+data:{
+labels: months,
+
+datasets:[{
+label:'Members',
+
+data: totals,
+
+borderColor:'#37E33A',
+backgroundColor:'rgba(55,227,58,0.15)',
+
+fill:true,
+tension:0.4
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false,
+
+plugins:{
+legend:{
+labels:{color:'#ccc'}
+}
+},
+
+scales:{
+x:{ticks:{color:'#aaa'}},
+
+y:{
+ticks:{color:'#aaa'},
+beginAtZero:true
+}
+}
+}
+});
+
+
+/* ================= AGE DISTRIBUTION ================= */
+
+new Chart(
+document.getElementById('ageChart'),
+{
+type:'bar',
+
+data:{
+labels:['15-20','21-30','31-40','41-50','50+'],
+
+datasets:[{
+label:'Members',
+
+data: ageData,
+
+backgroundColor:'#37E33A'
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false,
+
+plugins:{
+legend:{display:false}
+},
+
+scales:{
+x:{ticks:{color:'#aaa'}},
+
+y:{
+ticks:{color:'#aaa'},
+beginAtZero:true
+}
+}
+}
+});
+
+</script>
+
+{% endblock %}

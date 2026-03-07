@@ -37,4 +37,5 @@ urlpatterns = [
     path('plan-details/<int:plan_id>/', views.plan_details, name='plan_details'),
 
     path('export-data/', views.download_my_gym_data, name='export_data'),
+    path("analytics/", views.analytics, name="analytics"),
 ]

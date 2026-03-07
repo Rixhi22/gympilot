@@ -20,11 +20,17 @@ class Gym(models.Model):
 # MEMBER
 # ===============================
 class Member(models.Model):
-    gym = models.ForeignKey(Gym, on_delete=models.CASCADE)
-    name = models.CharField(max_length=120)
-    country_code = models.CharField(max_length=5, default="+91")
 
-    join_date = models.DateField(default=timezone.localdate)
+    GENDER_CHOICES = [
+        ("Male", "Male"),
+        ("Female", "Female"),
+    ]
+
+    gym = models.ForeignKey(Gym, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=120)
+
+    country_code = models.CharField(max_length=5, default="+91")
 
     phone_validator = RegexValidator(
         r'^[6-9]\d{9}$',
@@ -33,12 +39,24 @@ class Member(models.Model):
 
     phone = models.CharField(max_length=10, validators=[phone_validator])
 
+    gender = models.CharField(
+        max_length=10,
+        choices=GENDER_CHOICES,
+        default="Male"
+    )
+
+    age = models.PositiveIntegerField(
+        null=True,
+        blank=True
+    )
+
+    join_date = models.DateField(default=timezone.localdate)
+
     def full_phone(self):
         return f"{self.country_code}{self.phone}"
 
     def __str__(self):
         return self.name
-
 # ===============================
 # MEMBERSHIP PLAN
 # ===============================

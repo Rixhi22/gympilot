@@ -18,7 +18,7 @@ COUNTRY_CHOICES = [
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['name', 'country_code', 'phone', 'join_date']   # ⭐ join_date ADDED
+        fields = ['name', 'country_code', 'phone', 'gender', 'age', 'join_date']
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -33,7 +33,15 @@ class MemberForm(forms.ModelForm):
                 'placeholder': 'Enter 10 digit number'
             }),
 
-            # ⭐ date picker
+            'gender': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+
+            'age': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter age'
+            }),
+
             'join_date': forms.DateInput(attrs={
                 'type': 'date',
                 'class': 'form-control'
@@ -43,17 +51,18 @@ class MemberForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.gym = kwargs.pop('gym', None)
         super().__init__(*args, **kwargs)
+
         self.fields['country_code'].initial = "+91"
 
-    # ⭐ AUTO JOIN DATE (THIS IS THE MISSING PART)
+        # Auto join date
         if not self.instance.pk:
-              self.fields['join_date'].initial = timezone.now().date()
-
+            self.fields['join_date'].initial = timezone.now().date()
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
 
-        if not phone or not phone.isdigit():            raise forms.ValidationError("Phone must contain only digits.")
+        if not phone or not phone.isdigit():
+            raise forms.ValidationError("Phone must contain only digits.")
 
         if len(phone) != 10:
             raise forms.ValidationError("Enter valid 10 digit number.")
@@ -70,8 +79,6 @@ class MemberForm(forms.ModelForm):
             raise forms.ValidationError("This number already exists.")
 
         return phone
-     
-
 
 # ======================================================
 # 💳 PLAN FORM

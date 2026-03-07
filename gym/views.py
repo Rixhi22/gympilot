@@ -69,8 +69,7 @@ def dashboard(request):
     monthly_revenue = (
     Subscription.objects
     .filter(gym=gym)
-    .annotate(month=TruncMonth('paid_on'))
-    .values('month')
+    .annotate(month=TruncMonth('start_date'))    .values('month')
     .annotate(total=Sum('amount_paid'))
     .order_by('month')
 )
@@ -420,3 +419,60 @@ from .utils.export_excel import export_gym_data
 def download_my_gym_data(request):
     gym = get_object_or_404(Gym, owner=request.user)
     return export_gym_data(gym)
+
+#Analytics
+
+from django.contrib.auth.decorators import login_required
+from django.db.models.functions import TruncMonth
+from django.db.models import Count
+import json
+
+@login_required
+def analytics(request):
+
+    gym = Gym.objects.get(owner=request.user)
+
+    members = Member.objects.filter(gym=gym)
+
+    male = members.filter(gender="Male").count()
+    female = members.filter(gender="Female").count()
+
+    # AGE GROUPS
+    age_15_20 = members.filter(age__gte=15, age__lte=20).count()
+    age_21_30 = members.filter(age__gte=21, age__lte=30).count()
+    age_31_40 = members.filter(age__gte=31, age__lte=40).count()
+    age_41_50 = members.filter(age__gte=41, age__lte=50).count()
+    age_50_plus = members.filter(age__gt=50).count()
+
+    # MEMBER GROWTH
+    growth = (
+        members
+        .annotate(month=TruncMonth("join_date"))
+        .values("month")
+        .annotate(total=Count("id"))
+        .order_by("month")
+    )
+
+    months = []
+    totals = []
+
+    for g in growth:
+        if g["month"]:
+            months.append(g["month"].strftime("%b %Y"))
+            totals.append(g["total"])
+
+    context = {
+        "male": male,
+        "female": female,
+        "age_data": json.dumps([
+            age_15_20,
+            age_21_30,
+            age_31_40,
+            age_41_50,
+            age_50_plus
+        ]),
+        "months": json.dumps(months),
+        "totals": json.dumps(totals),
+    }
+
+    return render(request, "analytics.html", context)

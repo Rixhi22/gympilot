@@ -41,6 +41,8 @@ Add Member
 <th>S.No</th>
 <th>Name</th>
 <th>Phone</th>
+<th>Gender</th>
+<th>Age</th>
 <th>Join Date</th>
 <th style="width:200px;">Action</th>
 </tr>
@@ -55,9 +57,9 @@ Add Member
 <td>{{ forloop.counter }}</td>
 
 <td>{{ member.name }}</td>
-
 <td>{{ member.phone }}</td>
-
+<td>{{ member.gender }}</td>
+<td>{{ member.age }}</td>
 <td>{{ member.join_date|date:"d M Y" }}</td>
 
 <td class="d-flex gap-2">
@@ -85,7 +87,7 @@ Delete
 {% empty %}
 
 <tr>
-<td colspan="5" class="text-center text-muted py-4">
+<td colspan="7" class="text-center text-muted py-4">
 No members found.
 </td>
 </tr>
@@ -108,9 +110,9 @@ No members found.
 <div class="subscription-card">
 
 <div><strong>Name:</strong> {{ member.name }}</div>
-
 <div><strong>Phone:</strong> {{ member.phone }}</div>
-
+<div><strong>Gender:</strong> {{ member.gender }}</div>
+<div><strong>Age:</strong> {{ member.age }}</div>
 <div><strong>Join Date:</strong> {{ member.join_date|date:"d M Y" }}</div>
 
 <div class="mt-3 d-grid gap-2">
