@@ -15,6 +15,8 @@ def export_gym_data(gym):
         {
             "Member Name": m.name,
             "Phone": m.full_phone(),
+            "Gender": m.gender,
+            "Age": m.age,
             "Join Date": m.join_date,
         }
         for m in members
@@ -25,10 +27,15 @@ def export_gym_data(gym):
 
     subs_data = [
         {
+            "Member Code": s.member_code,
             "Member": s.member.name,
             "Plan": s.plan.name,
             "Start Date": s.start_date,
             "Expiry Date": s.expiry_date,
+            "Extra Months": s.extra_months,
+            "Discount %": s.discount_percent,
+            "PT Fee": s.personal_training_fee,
+            "Final Amount": s.final_amount,
             "Amount Paid": s.amount_paid,
             "Payment Mode": s.payment_mode,
             "Paid On": s.paid_on,
@@ -48,12 +55,22 @@ def export_gym_data(gym):
         for p in plans
     ]
 
-    # Convert to DataFrames
-    members_df = pd.DataFrame(members_data)
-    subs_df = pd.DataFrame(subs_data)
-    plans_df = pd.DataFrame(plans_data)
+    # ---------------- DATAFRAMES (SAFE IF EMPTY) ----------------
+    members_df = pd.DataFrame(members_data) if members_data else pd.DataFrame(columns=[
+        "Member Name", "Phone", "Gender", "Age", "Join Date"
+    ])
 
-    # Create Excel response
+    subs_df = pd.DataFrame(subs_data) if subs_data else pd.DataFrame(columns=[
+        "Member Code", "Member", "Plan", "Start Date", "Expiry Date",
+        "Extra Months", "Discount %", "PT Fee", "Final Amount",
+        "Amount Paid", "Payment Mode", "Paid On"
+    ])
+
+    plans_df = pd.DataFrame(plans_data) if plans_data else pd.DataFrame(columns=[
+        "Plan Name", "Price", "Duration (Months)"
+    ])
+
+    # ---------------- CREATE EXCEL RESPONSE ----------------
     response = HttpResponse(
         content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
@@ -71,18 +88,16 @@ def export_gym_data(gym):
         subs_df.to_excel(writer, sheet_name="Subscriptions", index=False)
         plans_df.to_excel(writer, sheet_name="Plans", index=False)
 
-        workbook = writer.book
-
-        # Apply styling + auto width
+        # ---------------- STYLING ----------------
         for sheet_name in writer.sheets:
             worksheet = writer.sheets[sheet_name]
 
-            # ✅ Bold + Center Header
+            # Header styling
             for cell in worksheet[1]:
                 cell.font = Font(bold=True)
                 cell.alignment = Alignment(horizontal="center")
 
-            # ✅ Auto Column Width
+            # Auto column width
             for column_cells in worksheet.columns:
                 max_length = 0
                 column = column_cells[0].column
@@ -95,7 +110,6 @@ def export_gym_data(gym):
                     except:
                         pass
 
-                adjusted_width = max_length + 4
-                worksheet.column_dimensions[column_letter].width = adjusted_width
+                worksheet.column_dimensions[column_letter].width = max_length + 4
 
     return response
