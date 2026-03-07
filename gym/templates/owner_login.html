@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>GymPilot Login</title>
+<title>GymPilot Signin</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,6 +27,7 @@ min-height:100vh;
 color:var(--text);
 padding:20px;
 font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto;
+position:relative;
 }
 
 /* LOGIN CARD */
@@ -86,6 +87,23 @@ box-shadow:
 outline:none;
 }
 
+
+.back-btn{
+position:absolute;
+top:20px;
+left:20px;
+color:#9ca3af;
+text-decoration:none;
+font-size:14px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.back-btn:hover{
+color:#38ef7d;
+}
+
 /* BUTTON */
 
 .btn-modern{
@@ -136,7 +154,7 @@ font-size:16px;
 
 <div class="login-card">
 
-<h4 class="login-title">GymPilot Owner Login</h4>
+<h4 class="login-title">Sign in</h4>
 
 <form method="POST">
 
@@ -154,10 +172,14 @@ class="form-control mb-3"
 placeholder="Password"
 required>
 
-<button type="submit" class="btn btn-modern">
+<button type="submit" class="btn btn-modern mb-3">
 Login
 </button>
 
+
+<a href="/" class="btn btn-modern btn-back">
+Back
+</a>
 </form>
 
 
