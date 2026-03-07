@@ -1,12 +1,9 @@
 import os
 import dj_database_url
 from pathlib import Path
-from decouple import Config, RepositoryEnv
+from decouple import config
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-config = Config(RepositoryEnv(os.path.join(BASE_DIR, '.env')))
-
 
 INSTALLED_APPS = [
     'jazzmin',  # MUST BE FIRST
