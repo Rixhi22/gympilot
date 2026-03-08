@@ -82,9 +82,9 @@
 
 <script>
 
-const months = {{ months|default:"[]"|safe }};
-const totals = {{ totals|default:"[]"|safe }};
-const ageData = {{ age_data|default:"[0,0,0,0,0]"|safe }};
+const months = JSON.parse('{{ months|escapejs|default:"[]" }}');
+const totals = JSON.parse('{{ totals|escapejs|default:"[]" }}');
+const ageData = JSON.parse('{{ age_data|escapejs|default:"[0,0,0,0,0]" }}');
 
 
 /* ================= MEMBER GROWTH ================= */

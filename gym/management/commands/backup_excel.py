@@ -117,13 +117,11 @@ class Command(BaseCommand):
                 "Name": t.name,
                 "Phone": t.phone,
                 "Gender": t.gender,
-                "Specialization": t.specialization,
                 "Experience Years": t.experience_years,
                 "Salary": float(t.salary),
                 "Join Date": t.join_date,
                 "Shift Start": t.shift_start,
                 "Shift End": t.shift_end,
-                "Status": t.status,
                 "Gym": t.gym.name
             })
 
