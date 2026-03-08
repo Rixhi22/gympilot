@@ -1,6 +1,6 @@
 import pandas as pd
 from django.http import HttpResponse
-from gym.models import Member, Subscription, MembershipPlan
+from gym.models import Member, Subscription, MembershipPlan, Trainer
 from django.utils import timezone
 from openpyxl.styles import Font, Alignment
 from openpyxl.utils import get_column_letter
@@ -55,7 +55,25 @@ def export_gym_data(gym):
         for p in plans
     ]
 
-    # ---------------- DATAFRAMES (SAFE IF EMPTY) ----------------
+    # ---------------- TRAINERS ----------------
+    trainers = Trainer.objects.filter(gym=gym)
+
+    trainers_data = [
+        {
+            "Trainer Code": t.trainer_code,
+            "Name": t.name,
+            "Phone": t.phone,
+            "Gender": t.gender,
+            "Experience Years": t.experience_years,
+            "Salary": t.salary,
+            "Join Date": t.join_date,
+            "Shift Start": t.shift_start,
+            "Shift End": t.shift_end,
+        }
+        for t in trainers
+    ]
+
+    # ---------------- DATAFRAMES ----------------
     members_df = pd.DataFrame(members_data) if members_data else pd.DataFrame(columns=[
         "Member Name", "Phone", "Gender", "Age", "Join Date"
     ])
@@ -68,6 +86,11 @@ def export_gym_data(gym):
 
     plans_df = pd.DataFrame(plans_data) if plans_data else pd.DataFrame(columns=[
         "Plan Name", "Price", "Duration (Months)"
+    ])
+
+    trainers_df = pd.DataFrame(trainers_data) if trainers_data else pd.DataFrame(columns=[
+        "Trainer Code", "Name", "Phone", "Gender", "Experience Years",
+        "Salary", "Join Date", "Shift Start", "Shift End"
     ])
 
     # ---------------- CREATE EXCEL RESPONSE ----------------
@@ -84,15 +107,17 @@ def export_gym_data(gym):
     response["Content-Disposition"] = f'attachment; filename="{filename}"'
 
     with pd.ExcelWriter(response, engine="openpyxl") as writer:
+
         members_df.to_excel(writer, sheet_name="Members", index=False)
         subs_df.to_excel(writer, sheet_name="Subscriptions", index=False)
         plans_df.to_excel(writer, sheet_name="Plans", index=False)
+        trainers_df.to_excel(writer, sheet_name="Trainer Management", index=False)
 
         # ---------------- STYLING ----------------
         for sheet_name in writer.sheets:
             worksheet = writer.sheets[sheet_name]
 
-            # Header styling
+            # Header style
             for cell in worksheet[1]:
                 cell.font = Font(bold=True)
                 cell.alignment = Alignment(horizontal="center")

@@ -13,19 +13,22 @@ class Command(BaseCommand):
 
         # ---------------- GYMS ----------------
         gyms_data = []
+
         for g in Gym.objects.select_related("owner"):
             gyms_data.append({
                 "Gym Name": g.name,
-                "Owner": g.owner.username
+                "Owner": g.owner.username if g.owner else ""
             })
 
         gyms_df = pd.DataFrame(gyms_data)
+
         if not gyms_df.empty:
             gyms_df.insert(0, "S.No", range(1, len(gyms_df) + 1))
 
 
         # ---------------- MEMBERS ----------------
         members_data = []
+
         for m in Member.objects.select_related("gym"):
             members_data.append({
                 "Name": m.name,
@@ -33,25 +36,28 @@ class Command(BaseCommand):
                 "Gender": m.gender,
                 "Age": m.age,
                 "Join Date": m.join_date,
-                "Gym": m.gym.name
+                "Gym": m.gym.name if m.gym else ""
             })
 
         members_df = pd.DataFrame(members_data)
+
         if not members_df.empty:
             members_df.insert(0, "S.No", range(1, len(members_df) + 1))
 
 
         # ---------------- PLANS ----------------
         plans_data = []
+
         for p in MembershipPlan.objects.select_related("gym"):
             plans_data.append({
                 "Plan": p.name,
-                "Price": float(p.price),
+                "Price": float(p.price or 0),
                 "Duration Months": p.duration_months,
-                "Gym": p.gym.name
+                "Gym": p.gym.name if p.gym else ""
             })
 
         plans_df = pd.DataFrame(plans_data)
+
         if not plans_df.empty:
             plans_df.insert(0, "S.No", range(1, len(plans_df) + 1))
 
@@ -64,21 +70,22 @@ class Command(BaseCommand):
         for s in subs:
             subscriptions_data.append({
                 "Member Code": s.member_code,
-                "Member": s.member.name,
-                "Plan": s.plan.name,
+                "Member": s.member.name if s.member else "",
+                "Plan": s.plan.name if s.plan else "",
                 "Start Date": s.start_date,
                 "Expiry Date": s.expiry_date,
                 "Extra Months": s.extra_months,
-                "Discount %": float(s.discount_percent),
-                "Personal Training Fee": float(s.personal_training_fee),
-                "Final Amount": float(s.final_amount),
-                "Paid Amount": float(s.amount_paid),
+                "Discount %": float(s.discount_percent or 0),
+                "Personal Training Fee": float(s.personal_training_fee or 0),
+                "Final Amount": float(s.final_amount or 0),
+                "Paid Amount": float(s.amount_paid or 0),
                 "Payment Mode": s.payment_mode,
                 "Paid On": s.paid_on,
-                "Gym": s.gym.name
+                "Gym": s.gym.name if s.gym else ""
             })
 
         subscriptions_df = pd.DataFrame(subscriptions_data)
+
         if not subscriptions_df.empty:
             subscriptions_df.insert(0, "S.No", range(1, len(subscriptions_df) + 1))
 
@@ -94,9 +101,9 @@ class Command(BaseCommand):
 
         for p in payments:
             payments_data.append({
-                "Member": p.subscription.member.name,
-                "Plan": p.subscription.plan.name,
-                "Amount": float(p.amount_paid),
+                "Member": p.subscription.member.name if p.subscription and p.subscription.member else "",
+                "Plan": p.subscription.plan.name if p.subscription and p.subscription.plan else "",
+                "Amount": float(p.amount_paid or 0),
                 "Payment Method": p.payment_method,
                 "Payment Date": p.payment_date,
                 "Billing Start": p.billing_start,
@@ -104,6 +111,7 @@ class Command(BaseCommand):
             })
 
         payments_df = pd.DataFrame(payments_data)
+
         if not payments_df.empty:
             payments_df.insert(0, "S.No", range(1, len(payments_df) + 1))
 
@@ -118,14 +126,15 @@ class Command(BaseCommand):
                 "Phone": t.phone,
                 "Gender": t.gender,
                 "Experience Years": t.experience_years,
-                "Salary": float(t.salary),
+                "Salary": float(t.salary or 0),
                 "Join Date": t.join_date,
                 "Shift Start": t.shift_start,
                 "Shift End": t.shift_end,
-                "Gym": t.gym.name
+                "Gym": t.gym.name if t.gym else ""
             })
 
         trainers_df = pd.DataFrame(trainers_data)
+
         if not trainers_df.empty:
             trainers_df.insert(0, "S.No", range(1, len(trainers_df) + 1))
 
