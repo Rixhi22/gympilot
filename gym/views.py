@@ -11,8 +11,8 @@ from dateutil.relativedelta import relativedelta
 from decimal import Decimal
 import json
 from django.db import IntegrityError, transaction
-from .forms import MemberForm, PlanForm, SubscriptionForm
-from .models import Subscription, Gym, Member, MembershipPlan, Payment
+from .forms import MemberForm, PlanForm, SubscriptionForm, TrainerForm
+from .models import Subscription, Gym, Member, MembershipPlan, Payment, Trainer
 # ================= OWNER LOGIN =================
 
 def owner_login(request):
@@ -476,3 +476,89 @@ def analytics(request):
     }
 
     return render(request, "analytics.html", context)
+
+#TRAINER
+
+@login_required
+def trainers_list(request):
+
+    gym = get_object_or_404(Gym, owner=request.user)
+
+    trainers = Trainer.objects.filter(gym=gym).order_by("-id")
+
+    return render(request, "trainers.html", {
+        "trainers": trainers
+    })
+
+@login_required
+def add_trainer(request):
+
+    gym = get_object_or_404(Gym, owner=request.user)
+
+    if request.method == "POST":
+        form = TrainerForm(request.POST)
+
+        if form.is_valid():
+            trainer = form.save(commit=False)
+            trainer.gym = gym
+            trainer.save()
+
+            messages.success(request, "Trainer added successfully")
+            return redirect("gym:trainers")
+
+        else:
+            print(form.errors)  # temporary debug
+
+    else:
+        form = TrainerForm()
+
+    return render(request, "add_trainer.html", {"form": form})
+# ================= TRAINERS =================
+
+@login_required
+def trainers_list(request):
+
+    gym = get_object_or_404(Gym, owner=request.user)
+
+    trainers = Trainer.objects.filter(gym=gym).order_by("-id")
+
+    return render(request, "trainers.html", {
+        "trainers": trainers
+    })
+
+
+@login_required
+def edit_trainer(request, trainer_id):
+
+    gym = get_object_or_404(Gym, owner=request.user)
+
+    trainer = get_object_or_404(Trainer, id=trainer_id, gym=gym)
+
+    if request.method == "POST":
+        form = TrainerForm(request.POST, instance=trainer)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Trainer updated successfully")
+            return redirect("gym:trainers")
+
+    else:
+        form = TrainerForm(instance=trainer)
+
+    return render(request, "add_trainer.html", {
+        "form": form
+    })
+
+
+@login_required
+def delete_trainer(request, trainer_id):
+
+    gym = get_object_or_404(Gym, owner=request.user)
+
+    trainer = get_object_or_404(Trainer, id=trainer_id, gym=gym)
+
+    trainer.delete()
+
+    messages.success(request, "Trainer deleted successfully")
+
+    return redirect("gym:trainers")

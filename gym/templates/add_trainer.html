@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- ================= PAGE HEADER ================= -->
+
+<div class="mb-4">
+    <h2 class="fw-semibold">Add / Edit Trainer</h2>
+</div>
+
+
+<!-- ================= FORM CARD ================= -->
+
+<div class="glass-card col-md-6">
+
+<form method="post">
+
+{% csrf_token %}
+
+
+<!-- FORM ERRORS -->
+
+{% if form.errors %}
+
+<div class="alert alert-danger mb-4">
+
+<strong>Form Errors:</strong>
+
+<ul class="mb-0">
+
+{% for field in form %}
+{% for error in field.errors %}
+
+<li>{{ field.label }} : {{ error }}</li>
+
+{% endfor %}
+{% endfor %}
+
+</ul>
+
+</div>
+
+{% endif %}
+
+
+<!-- TRAINER NAME -->
+
+<div class="mb-3">
+
+<label class="form-label">Trainer Name</label>
+
+{{ form.name }}
+
+</div>
+
+
+<!-- PHONE -->
+
+<div class="mb-3">
+
+<label class="form-label">Phone</label>
+
+{{ form.phone }}
+
+</div>
+
+
+<!-- GENDER -->
+
+<div class="mb-3">
+
+<label class="form-label">Gender</label>
+
+{{ form.gender }}
+
+</div>
+
+
+
+
+<!-- EXPERIENCE -->
+
+<div class="mb-3">
+
+<label class="form-label">Experience (Years)</label>
+
+{{ form.experience_years }}
+
+</div>
+
+
+<!-- SALARY -->
+
+<div class="mb-3">
+
+<label class="form-label">Salary</label>
+
+{{ form.salary }}
+
+</div>
+
+
+<!-- JOIN DATE -->
+
+<div class="mb-3">
+
+<label class="form-label">Join Date</label>
+
+{{ form.join_date }}
+
+</div>
+
+
+<!-- SHIFT START -->
+
+<div class="mb-3">
+
+<label class="form-label">Shift Start</label>
+
+{{ form.shift_start }}
+
+</div>
+
+
+<!-- SHIFT END -->
+
+<div class="mb-4">
+
+<label class="form-label">Shift End</label>
+
+{{ form.shift_end }}
+
+</div>
+
+
+
+
+<!-- BUTTONS -->
+
+<div class="d-flex gap-2">
+
+<button type="submit" class="btn-modern">
+Save Trainer
+</button>
+
+<a href="{% url 'gym:trainers' %}" class="btn btn-outline-secondary">
+Cancel
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+{% endblock %}

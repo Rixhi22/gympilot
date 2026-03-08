@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ================= PAGE HEADER ================= -->
+
+<div class="mb-4">
+<h2 class="fw-semibold">Trainer Management</h2>
+</div>
+
+
+<!-- ================= ADD BUTTON ================= -->
+
+<div style="text-align:right;margin-bottom:20px;">
+
+<a href="{% url 'gym:add_trainer' %}" class="btn-modern">
+Add Trainer
+</a>
+
+</div>
+<!-- ================= TRAINER TABLE ================= -->
+
+<div class="glass-card table-container">
+
+<table class="table table-dark align-middle">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Phone</th>
+<th>Gender</th>
+<th>Experience</th>
+<th>Shift</th>
+<th>Salary</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for t in trainers %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ t.name }}</td>
+
+<td>{{ t.phone }}</td>
+
+<td>{{ t.gender }}</td>
+
+<td>{{ t.experience_years }} yrs</td>
+
+<td>
+{{ t.shift_start|time:"h:i A" }} - {{ t.shift_end|time:"h:i A" }}
+</td>
+
+<td>₹{{ t.salary }}</td>
+<td>
+
+<div style="display:flex; gap:8px;">
+
+<a href="{% url 'gym:edit_trainer' t.id %}" 
+class="btn btn-sm btn-outline-light">
+Edit
+</a>
+
+<a href="{% url 'gym:delete_trainer' t.id %}" 
+class="btn btn-sm btn-outline-danger">
+Delete
+</a>
+
+</div>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="8">No trainers added yet</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

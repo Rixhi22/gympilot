@@ -181,3 +181,66 @@ subscription = models.ForeignKey(
     on_delete=models.CASCADE,
     db_index=True
 )
+
+#TRAINER PAGE
+
+class Trainer(models.Model):
+
+    
+
+    GENDER_CHOICES = [
+        ("Male", "Male"),
+        ("Female", "Female"),
+    ]
+
+    gym = models.ForeignKey(Gym, on_delete=models.CASCADE)
+
+    # SERIAL NUMBER
+    trainer_code = models.CharField(
+        max_length=20,
+        unique=True,
+        null=True,
+        blank=True,
+        editable=False
+    )
+
+    name = models.CharField(max_length=120)
+
+    phone = models.CharField(max_length=15)
+
+    gender = models.CharField(
+        max_length=10,
+        choices=GENDER_CHOICES
+    )
+
+
+    experience_years = models.PositiveIntegerField(default=0)
+
+    salary = models.DecimalField(max_digits=8, decimal_places=2)
+
+    join_date = models.DateField(default=timezone.localdate)
+
+    shift_start = models.TimeField()
+
+    shift_end = models.TimeField()
+
+    
+
+    # AUTO SERIAL GENERATION
+
+   
+    def save(self, *args, **kwargs):
+
+        if not self.trainer_code:
+
+            last_trainer = Trainer.objects.filter(gym=self.gym).order_by('-id').first()
+
+            if last_trainer and last_trainer.trainer_code:
+                last_number = int(last_trainer.trainer_code.split("-")[1])
+                new_number = last_number + 1
+            else:
+                new_number = 1
+
+            self.trainer_code = f"TR-{new_number:03d}"
+
+        super().save(*args, **kwargs)

@@ -1,0 +1,26 @@
+/* ===== Trainer Table Fix ===== */
+
+.table-container{
+overflow-x:auto;
+}
+
+.glass-card table{
+width:100%;
+table-layout:fixed;
+}
+
+.glass-card th,
+.glass-card td{
+text-align:center;
+vertical-align:middle;
+white-space:nowrap;
+}
+
+.shift-column{
+white-space:normal;
+line-height:1.4;
+}
+
+.actions{
+white-space:nowrap;
+}

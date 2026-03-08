@@ -1,5 +1,5 @@
 from django import forms
-from .models import Member, MembershipPlan, Subscription
+from .models import Member, MembershipPlan, Subscription, Trainer
 from django.utils import timezone
 
 # ======================================================
@@ -168,3 +168,82 @@ class SubscriptionForm(forms.ModelForm):
 
     def clean_personal_training_fee(self):
         return self.cleaned_data.get('personal_training_fee') or 0
+
+#TRAINER FORM 
+
+from django import forms
+from .models import Trainer
+
+class TrainerForm(forms.ModelForm):
+
+    class Meta:
+        model = Trainer
+
+        fields = [
+            "name",
+            "phone",
+            "gender",
+            "experience_years",
+            "salary",
+            "join_date",
+            "shift_start",
+            "shift_end",
+        ]
+
+        widgets = {
+
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Trainer name"
+                }
+            ),
+
+            "phone": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Phone number"
+                }
+            ),
+
+            "gender": forms.Select(
+                attrs={"class": "form-control"}
+            ),
+
+
+            "experience_years": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Years of experience"
+                }
+            ),
+
+            "salary": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Trainer salary"
+                }
+            ),
+
+            "join_date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "form-control"
+                }
+            ),
+
+            "shift_start": forms.TimeInput(
+                attrs={
+                    "type": "time",
+                    "class": "form-control"
+                }
+            ),
+
+            "shift_end": forms.TimeInput(
+                attrs={
+                    "type": "time",
+                    "class": "form-control"
+                }
+            ),
+
+        }

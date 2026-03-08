@@ -114,8 +114,9 @@ padding:25px;
 border:1px solid rgba(56,239,125,0.12);
 box-shadow:0 15px 40px rgba(0,0,0,0.6);
 transition:all .25s ease;
-}
 
+overflow-x:auto;
+}
 .glass-card:hover{
 transform:translateY(-4px);
 border:1px solid rgba(56,239,125,0.25);
@@ -204,10 +205,16 @@ color:white !important;
 
 .table{
 width:100%;
+min-width:1100px;
 margin:0;
 background:transparent !important;
-color:#ffffff ;
+color:#ffffff;
 border:none;
+}
+.table th,
+.table td{
+min-width:120px;
+text-align:center;
 }
 
 .table thead{
@@ -227,6 +234,20 @@ font: size 1.25rem;;
 color:#ffffff !important;
 padding:18px 20px;
 border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.table td div{
+display:flex;
+justify-content:center;
+gap:6px;
+flex-wrap:nowrap;
+}
+
+.table th:last-child,
+.table td:last-child{
+width:140px;
+white-space:nowrap;
+text-align:center;
 }
 
 .table tbody tr{
@@ -372,7 +393,9 @@ Subscriptions
 Analytics
 </a>
 </li>
-
+<a href="{% url 'gym:trainers' %}" class="d-none d-md-inline">
+Trainer Management
+</a>
 </div>
 
 

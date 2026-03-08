@@ -46,7 +46,7 @@
                     <th>Member</th>
                     <th>Plan</th>
                     <th>Payment</th>
-                    <th>Expiry_Date</th>
+                    <th>Expiry</th>                    
                     <th>Status</th>
                     <th style="width:260px;">Action</th>
                 </tr>
@@ -87,8 +87,8 @@
 
                     <!-- ACTION -->
 
-                    <td class="d-flex gap-2 flex-wrap">
-
+                    <td>
+                    <div class="d-flex gap-2 flex-nowrap align-items-center">
                         <a href="{% url 'gym:edit_subscription' sub.id %}" 
                            class="btn btn-sm btn-primary">
                            Edit
@@ -113,7 +113,7 @@
                         </a>
 
                         {% endif %}
-
+                    </div>
                     </td>
 
                 </tr>
@@ -131,6 +131,7 @@
             </tbody>
 
         </table>
+        
 
     </div>
 
