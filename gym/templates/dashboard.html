@@ -53,28 +53,30 @@
 
 <!-- ================= EXPIRING MEMBERS ================= -->
 
-<div class="glass-card">
+<div class="glass-card mt-4">
 
-<h5 class="mb-3">Members Expiring Soon</h5>
-
-<div class="table-responsive">
+<h4 class="mb-3">Members Expiring Soon</h4>
 
 <table class="table align-middle">
 
 <thead>
 <tr>
+<th>S.No</th>
 <th>Member</th>
+<th>Phone</th>
 <th>Expiry</th>
-<th>Subscription</th>
+<th>Plan</th>
 </tr>
 </thead>
 
 <tbody>
 
-{% for sub in expiring_soon %}
+{% for sub in expiring_members %}
 
 <tr>
+<td>{{ forloop.counter }}</td>
 <td>{{ sub.member.name }}</td>
+<td>{{ sub.member.full_phone }}</td>
 <td>{{ sub.expiry_date|date:"d M Y" }}</td>
 <td>{{ sub.plan.name }}</td>
 </tr>
@@ -82,8 +84,8 @@
 {% empty %}
 
 <tr>
-<td colspan="3" class="text-center">
-No members expiring soon.
+<td colspan="5" class="text-center text-muted">
+No members expiring soon
 </td>
 </tr>
 
@@ -94,10 +96,6 @@ No members expiring soon.
 </table>
 
 </div>
-
-</div>
-
-
 <!-- ================= EXPORT BUTTON ================= -->
 
 <div style="text-align:right;margin-top:25px;">

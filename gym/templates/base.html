@@ -205,15 +205,14 @@ color:white !important;
 
 .table{
 width:100%;
-min-width:1100px;
 margin:0;
 background:transparent !important;
 color:#ffffff;
 border:none;
 }
+
 .table th,
 .table td{
-min-width:120px;
 text-align:center;
 }
 
@@ -331,8 +330,67 @@ font-size:14px !important;
 .stat-number{
 font-size:22px !important;
 }
+/* ===== Expiry table mobile fix ===== */
+
+/* ===== Expiry table mobile fix ===== */
+
+.expire-table{
+table-layout:fixed;
+width:100%;
 }
 
+.expire-table th,
+.expire-table td{
+font-size:12px;
+padding:6px 4px;
+white-space:normal;
+}
+
+/* column sizing */
+
+.expire-table th:nth-child(1),
+.expire-table td:nth-child(1){
+width:10%;
+}
+
+.expire-table th:nth-child(2),
+.expire-table td:nth-child(2){
+width:35%;
+}
+
+.expire-table th:nth-child(3),
+.expire-table td:nth-child(3){
+width:25%;
+word-break:break-all;
+}
+
+.expire-table th:nth-child(4),
+.expire-table td:nth-child(4){
+width:15%;
+}
+
+.expire-table th:nth-child(5),
+.expire-table td:nth-child(5){
+width:15%;
+}
+}
+.table tbody tr{
+transition:all .15s ease;
+}
+
+.table tbody tr:hover{
+background:rgba(56,239,125,0.06);
+box-shadow:0 0 10px rgba(56,239,125,0.2);
+}
+
+.table tbody tr{
+transition:all .15s ease;
+}
+
+.table tbody tr:hover{
+background:rgba(56,239,125,0.06);
+box-shadow:0 0 10px rgba(56,239,125,0.2);
+}
 </style>
 
 </head>

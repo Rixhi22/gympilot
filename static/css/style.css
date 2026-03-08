@@ -24,3 +24,104 @@ line-height:1.4;
 .actions{
 white-space:nowrap;
 }
+
+.table th{
+color:#38ef7d;
+font-weight:600;
+}
+
+.table td{
+padding:14px 10px;
+}
+
+
+/* ===== Expiry Table ===== */
+
+.expire-table{
+table-layout:fixed;
+width:100%;
+}
+
+/* phone wrap */
+.phone{
+word-break:break-all;
+}
+
+
+/* ===== MOBILE FIX ===== */
+
+@media (max-width:768px){
+
+.expire-table th,
+.expire-table td{
+font-size:12px;
+padding:6px 4px;
+}
+
+/* balanced column widths */
+
+.expire-table th:nth-child(1),
+.expire-table td:nth-child(1){
+width:8%;
+}
+
+.expire-table th:nth-child(2),
+.expire-table td:nth-child(2){
+width:25%;
+}
+
+.expire-table th:nth-child(3),
+.expire-table td:nth-child(3){
+width:27%;
+}
+
+.expire-table th:nth-child(4),
+.expire-table td:nth-child(4){
+width:20%;
+}
+
+.expire-table th:nth-child(5),
+.expire-table td:nth-child(5){
+width:20%;
+}
+
+}
+
+/* ================= EXPIRY TABLE MOBILE FIX ================= */
+
+@media (max-width:768px){
+
+table th,
+table td{
+font-size:12px;
+padding:6px 4px;
+}
+
+/* Reduce column spacing only on mobile */
+
+table th:nth-child(1),
+table td:nth-child(1){
+width:6% !important;
+}
+
+table th:nth-child(2),
+table td:nth-child(2){
+width:30% !important;
+}
+
+table th:nth-child(3),
+table td:nth-child(3){
+width:24% !important;
+}
+
+table th:nth-child(4),
+table td:nth-child(4){
+width:20% !important;
+}
+
+table th:nth-child(5),
+table td:nth-child(5){
+width:20% !important;
+}
+
+}

@@ -32,13 +32,14 @@
 
 <!-- ================= SUBSCRIPTIONS LIST ================= -->
 
-<div class="glass-card table-card">
+<!-- ================= SUBSCRIPTIONS LIST ================= -->
+
+<div class="subscriptions-wrapper">
 
     <!-- ================= DESKTOP TABLE ================= -->
 
-    <div class="desktop-table d-none d-md-block">
-
-        <table class="table align-middle">
+<div class="glass-card desktop-table d-none d-md-block">
+<table class="table align-middle">
 
             <thead>
                 <tr>
@@ -46,7 +47,7 @@
                     <th>Member</th>
                     <th>Plan</th>
                     <th>Payment</th>
-                    <th>Expiry</th>                    
+                    <th>Expiry</th>
                     <th>Status</th>
                     <th style="width:260px;">Action</th>
                 </tr>
@@ -59,61 +60,48 @@
                 <tr>
 
                     <td>{{ forloop.counter }}</td>
-
                     <td>{{ sub.member.name }}</td>
-
                     <td>{{ sub.plan.name }}</td>
-
                     <td>{{ sub.payment_mode }}</td>
-
                     <td>{{ sub.expiry_date|date:"d M Y" }}</td>
 
-                    <!-- STATUS -->
-
                     <td>
-
                         {% if sub.expiry_date > today_plus_3 %}
-                            <span class="badge bg-success" style="font-size: 14px;">Active</span>
-
+                            <span class="badge bg-success">Active</span>
                         {% elif sub.expiry_date >= today %}
-                            <span class="badge bg-warning text-dark" style="font-size: 14px;">Expiring Soon</span>
-
+                            <span class="badge bg-warning text-dark">Expiring Soon</span>
                         {% else %}
-                            <span class="badge bg-danger" style="font-size: 14px;">Expired</span>
-
+                            <span class="badge bg-danger">Expired</span>
                         {% endif %}
-
                     </td>
 
-                    <!-- ACTION -->
-
                     <td>
-                    <div class="d-flex gap-2 flex-nowrap align-items-center">
-                        <a href="{% url 'gym:edit_subscription' sub.id %}" 
-                           class="btn btn-sm btn-primary">
-                           Edit
-                        </a>
+                        <div class="d-flex gap-2 flex-nowrap align-items-center">
 
-                        <form method="POST" action="{% url 'gym:delete_subscription' sub.id %}">
-                            {% csrf_token %}
+                            <a href="{% url 'gym:edit_subscription' sub.id %}" 
+                               class="btn btn-sm btn-primary">
+                               Edit
+                            </a>
 
-                            <button type="submit"
-                                class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Delete this subscription?');">
-                                Delete
-                            </button>
+                            <form method="POST" action="{% url 'gym:delete_subscription' sub.id %}">
+                                {% csrf_token %}
+                                <button type="submit"
+                                    class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Delete this subscription?');">
+                                    Delete
+                                </button>
+                            </form>
 
-                        </form>
+                            {% if sub.expiry_date < today and sub.expiry_reason == "natural" %}
 
-                        {% if sub.expiry_date < today and sub.expiry_reason == "natural" %}
+                            <a href="{% url 'gym:renew_subscription' sub.id %}" 
+                               class="btn btn-sm btn-warning">
+                               Renew
+                            </a>
 
-                        <a href="{% url 'gym:renew_subscription' sub.id %}" 
-                           class="btn btn-sm btn-warning">
-                           Renew
-                        </a>
+                            {% endif %}
 
-                        {% endif %}
-                    </div>
+                        </div>
                     </td>
 
                 </tr>
@@ -131,7 +119,6 @@
             </tbody>
 
         </table>
-        
 
     </div>
 
@@ -145,26 +132,18 @@
         <div class="subscription-card">
 
             <div><strong>Member:</strong> {{ sub.member.name }}</div>
-
             <div><strong>Plan:</strong> {{ sub.plan.name }}</div>
-
             <div><strong>Payment:</strong> {{ sub.payment_mode }}</div>
-
             <div><strong>Expiry:</strong> {{ sub.expiry_date|date:"d M Y" }}</div>
 
             <div class="mt-2">
-
                 {% if sub.expiry_date > today_plus_3 %}
-                    <span class="badge bg-success" style="font-size: 14px;">Active</span>
-
+                    <span class="badge bg-success">Active</span>
                 {% elif sub.expiry_date >= today %}
-                    <span class="badge bg-warning text-dark" style="font-size: 14px;">Expiring Soon</span>
-
+                    <span class="badge bg-warning text-dark">Expiring Soon</span>
                 {% else %}
-                    <span class="badge bg-danger" style="font-size: 14px;">Expired</span>
-
+                    <span class="badge bg-danger">Expired</span>
                 {% endif %}
-
             </div>
 
             <div class="mt-3 d-grid gap-2">
@@ -176,13 +155,11 @@
 
                 <form method="POST" action="{% url 'gym:delete_subscription' sub.id %}">
                     {% csrf_token %}
-
                     <button type="submit"
                         class="btn btn-outline-danger btn-sm w-100"
                         onclick="return confirm('Delete this subscription?');">
                         Delete Subscription
                     </button>
-
                 </form>
 
                 {% if sub.expiry_date < today and sub.expiry_reason == "natural" %}
@@ -207,7 +184,6 @@
     </div>
 
 </div>
-
 
 <!-- ================= PAGINATION ================= -->
 
